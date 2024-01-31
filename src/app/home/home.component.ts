@@ -482,25 +482,28 @@ addToRetrieveDatabaseList(){
     tableName:this.selectedTableName
   }
 
-  const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
-  if (indexToRemove !== -1) {
-    this.databaseNameList.splice(indexToRemove, 1);
-  }
-  console.log(this.retrieveDataDatabaseList); 
-  console.log(this.databaseNameList);
-  // const existingConfigIndex = this.retrieveDataDatabaseList.findIndex(
-  //   config =>
-  //     config.databaseName === this.selectedDatabaseName &&
-  //     config.tableName === this.selectedTableName
-  // );
-  
-  // if (existingConfigIndex !== -1) {
-  //   // Update the existing object
-  //   this.retrieveDataDatabaseList[existingConfigIndex] = convertedConfig;
-  // } else {
-  //   // Add a new object
-  //   this.retrieveDataDatabaseList.push(convertedConfig);
+  // const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
+  // if (indexToRemove !== -1) {
+  //   this.databaseNameList.splice(indexToRemove, 1);
   // }
+  // console.log(this.retrieveDataDatabaseList); 
+  // console.log(this.databaseNameList);
+
+  const existingIndex = this.retrieveDataDatabaseList.findIndex(
+    item =>
+      item.databaseName === this.selectedDatabaseName &&
+      item.tableName === this.selectedTableName
+  );
+  
+  if (existingIndex !== -1) {
+    // Update the existing item
+    this.retrieveDataDatabaseList[existingIndex] = convertedConfig;
+  } else {
+    // Add a new item
+    this.retrieveDataDatabaseList.push(convertedConfig);
+  }
+  
+  console.log(this.retrieveDataDatabaseList);
   
 }
 
@@ -516,8 +519,8 @@ deleteSelectedList() {
       this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000 });
     } 
   });
-  this.retrieveDataDatabaseList=[];
-  console.log(this.retrieveDataDatabaseList);
+ console.log(this.retrieveDataDatabaseList);
+ 
 }
 
 
