@@ -22,18 +22,33 @@
 ::-webkit-scrollbar {
   height: 7px;
 }
+.help-text{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #0f4944;
+}
+.help-text1{
+  margin: 39px -20px 4px 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #0f4944;
+}
 
 /* ======================================  SECTION 1 ========================================= */
 
 .button_c_r_u{
   display: flex;
-  margin: 49px 0px 0px 152px;
+justify-content: center;
+margin-top: 80px;
 }
 
 .section1 {
   position:static;
   width: 100%;
-  min-height: 90vh;
+  min-height: 85vh;
   /* background: image-set('assets/images/sec1bg.png'); */
   background-position: center;
   background-size: cover;
@@ -44,7 +59,7 @@
 }
 .content {
   position: relative;
-  margin-top: 24%;
+  margin-top: 18%;
   max-width: 650px;
   margin-left: -60px;
 }
@@ -211,7 +226,7 @@ input::file-selector-button:active {
 .success-msg,
 .warning-msg,
 .error-msg {
-  margin: -67px -4px;
+  margin: -2px -4px;
   padding: 10px;
   border-radius: 6px;
   width: 607px;
@@ -237,6 +252,11 @@ input::file-selector-button:active {
   background-color: #ffbaba;
 }
 
+
+.validation-text {
+  font-size: 10px;
+  color: red;
+}
 /* Error-box */
 
 .error-box {
@@ -298,17 +318,47 @@ span {
     width: 100;
   }
 }
+
+
+
+
 /* =================================================== SECTION 1 END =================================================== */
 
 /* ==================================================== SECTION 2 ====================================================== */
 
 .section2 {
-  background-color: rgb(255, 255, 255);
-  margin-bottom: 100px;
-  margin-top: -50px;
-  padding:20px 20px 20px 20px;
+  margin-bottom: 20px;
+  
+  padding: 35px 50px 1px 50px;
+  min-height: 334px;
+  width: 100%;
+  background: rgb(239, 255, 254);
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
 
 }
+.section2 h3{
+  font-size: 40px;
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: -3px 3px 3px rgba(219, 219, 219, 0.5);
+  color: #018673;
+  display: flex;
+  justify-content: center;
+}
+.download-section{
+  margin-top: 65px;
+  display: flex;
+  justify-content: center;
+}
+
+.download-section p{
+  font-weight: 500;
+  color: #385a64c7;
+  font-family: poppins;
+  font-size: 20px;
+}
+
 
 .title {
   font-size: 50px;
@@ -1060,7 +1110,7 @@ button:focus {
 /* divider */
 
 .gradient-line {
-  margin: 0 0 50px 0;
+  margin: 22px 0 0px 0;
   display: block;
   border: none;
   height: 2px;
@@ -1321,3 +1371,13 @@ margin-top:200px
   }
 }
 
+.blink {
+  animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+  50% {
+    border-color: red;
+    border-width: 2px;
+  }
+}

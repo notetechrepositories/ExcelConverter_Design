@@ -5,6 +5,7 @@ export class DataRetrieveModel{
     Username !: string;
     Password !: String;
     DatabaseName !: string;
-    Table !:any[];
+    Table !:string[];
+
 }
 

@@ -14,26 +14,17 @@
                         <div class="file_selector">
                             <input type="file" class="anim" (change)="onFileSelected($event)">
                             <a class="button" style="height: 56px; margin-top: 23px;" (click)="getDataConfiguration()">CREATE</a>
+                            <a class="help-text1" (click)="downloadPDFTemplate()">Help ?</a>
                         </div>
-
-                        <!-- <div class="button_group">
-                            <a class="button" (click)="getDataConfiguration()">CREATE</a>
-                        </div> -->
-
-
                         
+
                         <div class="error-msg" *ngIf="errorLabel">
                             <i class="fa fa-times-circle"></i>&nbsp;{{ responseMessage }}
                         </div>
                         <div class="warning-msg" *ngIf="warningLabel">
                             <i class="fa fa-warning"></i>&nbsp;Please select a file
                         </div>
-<!-- 
-                        <div>
-                            <p>Download Spreadsheet Template for Creating Database and Tables<a class="button" (click)="downloadExcel()">Download</a></p>
-                            
-                        </div> -->
-    
+                     
                         <!--------------- ErrorBox ------------>
                         <div class="error-box" *ngIf="errorListBox">
                             <h4 style='color:red;text-align: center;'><i class='fas fa-exclamation-triangle'></i> Error!
@@ -44,38 +35,40 @@
     
                         </div>
                         <!-------------- ErrorBox End ---------->
-              
+
                     </div>
+          
                     <div class="bgimg1">
                         <img src="assets\images\bgimg1.png" alt="" class="bgimg1">
                     </div>
-
-                    <div class="content">
-                        <p style="font-size: 18px;">Download Spreadsheet Template<a class="button" (click)="onclickDownLoad()">Download</a></p>
-                        <div class="button_c_r_u" *ngIf="CreateRetrieveUpdateBtn">
-                            <a class="button" (click)="downloadExcel()">Create</a><br>
-                            <a class="button" (click)="onretrieve()">Retrieve</a><br>
-                            <a class="button">Update</a>
-                        </div>
-                    </div>
-
-                </div>
             </div>
-    
+        </div>
     
     
     <!-- ===================================== SECTION 2 ======================================= -->
     
-            <div class="section2" id="section-2">
-
-                <div style="margin-left: 349px;">
-                    <p style="font-size: 18px;">Download Spreadsheet Template<a class="button" (click)="onclickDownLoad()">Download</a></p>
-                    <div class="button_c_r_u" *ngIf="CreateRetrieveUpdateBtn">
-                        <a class="button" (click)="downloadExcel()">Create</a><br>
-                        <a class="button" (click)="onretrieve()">Retrieve</a><br>
-                        <a class="button">Update</a>
-                    </div>
+        <div class="section2" id="section-2">
+            <h3>Download Spreadsheet</h3>
+            <hr class="gradient-line" /> 
+            <!-- <div class="download-section"> 
+                <div>
+                    <p>Download Spreadsheet Template</p>
                 </div>
+            </div> -->
+            <div class="button_c_r_u">
+                <a class="button create" style="background: #018673; width: 250px;text-align: center;" (click)="downloadExcel()">Create Template
+                    <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a><br>
+                <a class="button" style="background: #018673;width: 250px;text-align: center;" (click)="onretrieve()">Retrieve Data
+                    <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a><br>
+                <a class="button" style="background: #018673; width: 250px;text-align: center;" (click)="onUpdateClick()">Update 
+                    <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
+            </div>
+            <a class="help-text" (click)="downloadPDFTemplate()">Help ?</a>
+            
+        </div>
+
+
+      
                 <!-- <hr class="gradient-line" /> 
                 <h2 class="title">MYSQL TO SPREADSHEET CONVERSION</h2>
                 <div class="drop-container">
@@ -103,8 +96,10 @@
                 </div>
             </div> -->
         </div>
-    
-        <!-------------------------- Success Message screen  ------------------->
+    </main>
+
+
+<!-------------------------- Success Message screen  ------------------->
         <div class="Success-window" *ngIf="successScreen">
             <div class="success-text-animation">
                 <span class="success-text1">Successfully</span>
@@ -113,14 +108,12 @@
                 </span>
             </div>
         </div>
-        <!-------------------------- Success Message screen End ------------------->
+
     
-    <!--=============================== Pop Up ==============================-->
-    
+<!--=============================== Pop Up ==============================-->
+
         <p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '80vw', 'min-height': '504px' }"
             [draggable]="false" [resizable]="false">
-
-
             <div *ngIf="configurationForm">
                 <p-toast></p-toast>
                 <h3 class="text-center mb-4">Database Configuration</h3>
@@ -131,7 +124,7 @@
                                     class="text-danger">*</span></label>
                             <p-dropdown [options]="hostname" [style]="{ 'width.px': '225' }" optionLabel="host"
                                 [showClear]="true" placeholder="Select a Host" name="SqlHost"
-                                (onChange)="selectport($event)" [(ngModel)]="excelData.SqlHost"></p-dropdown>
+                                (onChange)="selectport($event)" [(ngModel)]="excelData.SqlHost" [ngClass]="{ 'blink': isBlinking && !excelData.SqlHost }"></p-dropdown>
                         </div>
                         <div class="col" style="display: grid;">
                             <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Port<span
@@ -139,24 +132,24 @@
                                     *</span></label>
                             <p-dropdown [options]="portname" optionLabel="port" [style]="{ 'width.px': '225' }"
                                 name="SqlPort" [showClear]="true" placeholder="Select a Port"
-                                (onChange)="selectDatabase($event)" [(ngModel)]="excelData.SqlPort"></p-dropdown>
+                                (onChange)="selectDatabase($event)" [(ngModel)]="excelData.SqlPort" [ngClass]="{ 'blink': isBlinking && !excelData.SqlPort }"></p-dropdown>
                         </div>
                         <div class="col" style="display: grid;">
                             <label class="form-control-label px-3"
                                 style="margin-top: 1px; margin-bottom: 5px;">Database<span class="text-danger">
                                     *</span></label>
                             <p-multiSelect [options]="databasename" [style]="{ 'width.px': '225' }" name="DatabaseName"
-                                [(ngModel)]="excelData.DatabaseName" optionLabel="database"></p-multiSelect>
+                                [(ngModel)]="excelData.DatabaseName" optionLabel="database" [ngClass]="{ 'blink': isBlinking && !excelData.DatabaseName }"></p-multiSelect>
                         </div>
                         <div class="col" style="display: grid;" >
                             <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
                             <input type="text" id="uname" name="SqlUsername" placeholder="Enter Username" id="inputbox"
-                                [(ngModel)]="excelData.SqlUsername" style="border: 1px solid #ccc;width:225px"  (click)="inputboxClick($event)">
+                                [(ngModel)]="excelData.SqlUsername" style="border: 1px solid #ccc;width:225px"  (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !excelData.SqlUsername }">
                         </div>
                         <div class="col" style="display: grid;">
                             <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
                             <input type="password" id="password" name="SqlPassword" placeholder="Enter Password" id="inputbox"
-                                [(ngModel)]="excelData.SqlPassword" style="border: 1px solid #ccc;width:225px" (click)="inputboxClick($event)">
+                                [(ngModel)]="excelData.SqlPassword" style="border: 1px solid #ccc;width:225px" (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !excelData.SqlPassword }">
                         </div>
                         <div class="col" style="display: grid;">
                             <button type="submit" class="btn-block btn-primary" (click)="onVerify()"
@@ -231,10 +224,10 @@
     
                 </p-table>
             </div>
-            <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+          
     
     
-        <!--------------- Convert loading screen -------------->
+<!--------------- Convert loading screen -------------->
     
             <div *ngIf="loadingScreen">
                 <div class="file-transfer">
@@ -263,151 +256,237 @@
                     </div>
                 </div>
             </div>
-        <!-------------------------- Convert loading screen End ------------------->
+
     
     
-        <!-------------------------- Error Message screen ------------------->
+<!-------------------------- Error Message screen ------------------->
         </p-dialog>
         <p-dialog [(visible)]="Errorvisible" [modal]="true"
-            [style]="{ 'width': '60vw', 'min-height': '504px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+            [style]="{ 'width': '40vw', 'min-height': '300px', 'background-color': dialogBackgroundColor }" [draggable]="false"
             [resizable]="false">
-            <div *ngIf="convertErrorScreen">
+            
+            <div>
                 <h2 style='color:rgb(209, 17, 17);text-align: center;'><i class='fas fa-exclamation-triangle'></i> Error!
                 </h2>
-                <div class="error-msg" style="color: #dd4444; background:#fcd3d3 ;"
+                <div class="convert-error-msg" style="color: #dd4444;    margin-top: 20px;"
                     *ngFor="let conError of convertErrorMessage">
-                    <i class="fa fa-times-circle"></i>&nbsp;{{ conError }}
+                    <i class="fa fa-times-circle"></i>&nbsp;{{conError}}
                 </div>
             </div>
         </p-dialog>
-        <!-------------------------- Error Message screen End ------------------->
-    
-    <!--========================================= Pop Up End ==========================================-->
 
 
+<!-- ==================  Retieve Data From Spreadsheet POP UP   ============================ -->
 
-    <!-- ==================  Retieve Data From Spreadsheet POP UP   ============================ -->
 
     <p-dialog [(visible)]="RetiveDataVisible" [modal]="true"
-    [style]="{ 'width': '60vw', 'min-height': '504px', 'background-color': dialogBackgroundColor }" [draggable]="false"
-    [resizable]="false">
-    <form class="form-card" onsubmit="event.preventDefault()">
-        <div class="row">
-
-                 
-
-            <div class="col" style="display: grid;" >
-                <label class="form-control-label px-3">Host<span class="text-danger"> *</span></label>
-                <input type="text" id="host" name="Host" placeholder="Enter Host" id="inputbox"
-                    [(ngModel)]="dataRetieve.Host" style="border: 1px solid #ccc;width:225px"  (click)="inputboxClick($event)"  required>
-            </div>
-            <div class="col" style="display: grid;">
-                <label class="form-control-label px-3">Port<span class="text-danger"> *</span></label>
-                <input type="text" id="port" name="Port" placeholder="Enter Port" id="inputbox"
-                    [(ngModel)]="dataRetieve.Port" style="border: 1px solid #ccc;width:225px"  (click)="inputboxClick($event)" required>
-            </div>
-            <div class="col" style="display: grid;" >
-                <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
-                <input type="text" id="uname" name="Username" placeholder="Enter Username" id="inputbox"
-                    [(ngModel)]="dataRetieve.Username" style="border: 1px solid #ccc;width:225px"   (click)="inputboxClick($event)" required>
-            </div>
-            <div class="col" style="display: grid;">
-                <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
-                <input type="password" id="password" name="Password" placeholder="Enter Password" id="inputbox"
-                    [(ngModel)]="dataRetieve.Password" style="border: 1px solid #ccc;width:225px" (click)="inputboxClick($event)" required>
-            </div>
-            <div class="col" style="display: grid;">
-                <button type="submit" class="btn-block btn-primary" 
-                    *ngIf="verifyButton" (click)="retrivedataVerification()">Verify</button>
-                <button type="submit" class="btn-block btn-primary" *ngIf="verifyMessage"
-                    style="background: #fff; border: 2px solid #7ac142;color: #7ac142;">Verified
-                    <svg class="checkmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                        <circle class="checkmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
-                        <path class="checkmark__check addClass" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                    </svg>
-                </button>
-                <button type="submit" class="btn-block btn-primary" *ngIf="invalidMessage"
-                    style="background: #fff; border: 2px solid #ff0000;color: #ff0000;">Invalid
-                    <svg class="crossmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                        <circle class="crossmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
-                        <path class="cross__path cross__path--right addClass" fill="none" d="M16,16 l20,20" />
-                        <path class="cross__path cross__path--left addClass" fill="none" d="M16,36 l20,-20" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col" style="display: grid;">
-                <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Database<span
-                        class="text-danger">*</span></label>
-                <p-dropdown [options]="databaseNameList"   [style]="{'width.%': '100'}" 
-                    [showClear]="true" placeholder="Select a Database" name="DatabaseName"
-                    (onChange)="onDatabaseSelect($event)"  [(ngModel)]="dataRetieve.DatabaseName"></p-dropdown>
+        [style]="{ 'width': '65vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+        [resizable]="false">
+        <form class="form-card" onsubmit="event.preventDefault()" #myForm="ngForm">
+            <div class="row">
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3">Host<span class="text-danger"> *</span></label>
+                    <input type="text" id="host" name="Host" placeholder="Enter Host" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Host" style="border: 1px solid #ccc;width:225px"
+                        (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Host }" required>
+    
+                </div>
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3">Port<span class="text-danger"> *</span></label>
+                    <input type="text" id="port" name="Port" placeholder="Enter Port" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Port" style="border: 1px solid #ccc;width:225px"
+                        (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Port }"required>
+    
+                </div>
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
+                    <input type="text" id="uname" name="Username" placeholder="Enter Username" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Username" style="border: 1px solid #ccc;width:225px"
+                        (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Username }" required>
+    
+                </div>
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
+                    <input type="password" id="password" name="Password" placeholder="Enter Password" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Password" style="border: 1px solid #ccc;width:225px"
+                        (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Password }" required>
+    
+                </div>
+                <div class="col" style="display: grid;">
+                    <button type="submit" class="btn-block btn-primary" *ngIf="verifyButton"
+                        (click)="retrivedataVerification()">Verify</button>
+                    <button type="submit" class="btn-block btn-primary" *ngIf="verifyMessage"
+                        style="background: #fff; border: 2px solid #7ac142;color: #7ac142;">Verified
+                        <svg class="checkmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
+                            <path class="checkmark__check addClass" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </button>
+                    <button type="submit" class="btn-block btn-primary" *ngIf="invalidMessage"
+                        style="background: #fff; border: 2px solid #ff0000;color: #ff0000;">Invalid
+                        <svg class="crossmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="crossmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
+                            <path class="cross__path cross__path--right addClass" fill="none" d="M16,16 l20,20" />
+                            <path class="cross__path cross__path--left addClass" fill="none" d="M16,36 l20,-20" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
-            <div class="col" style="display: grid;">
-                <label class="form-control-label px-3"
+            <div class="row">
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Database<span
+                            class="text-danger">*</span></label>
+                    <p-dropdown [options]="databaseNameList" [style]="{'width.%': '100'}" [showClear]="true"
+                        placeholder="Select a Database" name="DatabaseName" (onChange)="onDatabaseSelect($event)"
+                        [(ngModel)]="dataRetrieve.DatabaseName"></p-dropdown>
+                </div>
+    
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Table<span
+                            class="text-danger">
+                            *</span></label>
+                    <p-multiSelect [options]="tableName" [style]="{ 'width.%': '100' }" name="Table"
+                        [(ngModel)]="dataRetrieve.Table"    (onChange)="onTableSelect($event)"></p-multiSelect>
+                </div>
+
+            
+                <div style="display: grid; width: 20%;    margin-top: 10px;">
+                    <button type="submit" class="btn-block btn-primary" (click)="addToRetrieveDatabaseList()">ADD</button>
+                </div>
+            </div>
+        </form>
+    
+        <p-table #dts [value]="retrieveDataDatabaseList" [rows]="4" [paginator]="true"
+            [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+            [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedDbAndTableList" [rowHover]="true" dataKey="databaseName"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0">Database and Tables</h5>
+                    <div class="trashButton" style="float:right">
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedList()"
+                            [disabled]="!selectedDbAndTableList || !selectedDbAndTableList.length" ></button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name">Database Name <p-sortIcon field="name"></p-sortIcon></th>
+                    <th>Tables</th>
+    
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-dbDetails>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="dbDetails"></p-tableCheckbox>
+                    </td>
+                    <td>{{ dbDetails.databaseName }}</td>
+                    <td>{{ dbDetails.tableName }}</td>
+    
+                    <td>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                            (click)="deleteList(dbDetails)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">In total there are {{ excel ?
+                    excel.length : 0 }} connection.
+                    <button class="button-62" role="button" (click)="onGenerateOfReteiveData()">Generate Excel</button>
+                </div>
+                <div class="warning-msg" *ngIf="warningLabel2">
+                    <i class="fa fa-warning"></i>{{errorMessage}}
+                </div>
+            </ng-template>
+    
+        </p-table>
+        
+    </p-dialog>
+
+ <!-- ==================  Update Data From Spreadsheet POP UP   ============================ -->
+
+
+    <p-dialog [(visible)]="UpdateDataVisible" [modal]="true"
+        [style]="{ 'width': '65vw', 'min-height': '504px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+        [resizable]="false">
+        <form class="form-card" onsubmit="event.preventDefault()">
+            <div class="row">
+    
+                     
+    
+                <div class="col" style="display: grid;" >
+                    <label class="form-control-label px-3">Host<span class="text-danger"> *</span></label>
+                    <input type="text" id="host" name="Host" placeholder="Enter Host" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Host" style="border: 1px solid #ccc;width:225px"  (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Host }" required>
+                </div>
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3">Port<span class="text-danger"> *</span></label>
+                    <input type="text" id="port" name="Port" placeholder="Enter Port" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Port" style="border: 1px solid #ccc;width:225px"  (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Port }"required>
+                </div>
+                <div class="col" style="display: grid;" >
+                    <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
+                    <input type="text" id="uname" name="Username" placeholder="Enter Username" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Username" style="border: 1px solid #ccc;width:225px"   (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Username }" required>
+                </div>
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
+                    <input type="password" id="password" name="Password" placeholder="Enter Password" id="inputbox"
+                        [(ngModel)]="dataRetrieve.Password" style="border: 1px solid #ccc;width:225px" (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Password }" required>
+                </div>
+                <div class="col" style="display: grid;">
+                    <button type="submit" class="btn-block btn-primary" 
+                        *ngIf="verifyButton" (click)="retrivedataVerification()">Verify</button>
+                    <button type="submit" class="btn-block btn-primary" *ngIf="verifyMessage"
+                        style="background: #fff; border: 2px solid #7ac142;color: #7ac142;">Verified
+                        <svg class="checkmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
+                            <path class="checkmark__check addClass" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </button>
+                    <button type="submit" class="btn-block btn-primary" *ngIf="invalidMessage"
+                        style="background: #fff; border: 2px solid #ff0000;color: #ff0000;">Invalid
+                        <svg class="crossmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="crossmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
+                            <path class="cross__path cross__path--right addClass" fill="none" d="M16,16 l20,20" />
+                            <path class="cross__path cross__path--left addClass" fill="none" d="M16,36 l20,-20" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Database<span
+                            class="text-danger">*</span></label>
+                    <p-dropdown [options]="databaseNameList"   [style]="{'width.%': '100'}" 
+                        [showClear]="true" placeholder="Select a Database" name="DatabaseName"
+                        (onChange)="onDatabaseSelect($event)"  [(ngModel)]="dataRetrieve.DatabaseName"></p-dropdown>
+                </div>
+    
+                <div class="col" style="display: grid;">
+                    <label class="form-control-label px-3"
                     style="margin-top: 1px; margin-bottom: 5px;">Table<span class="text-danger">
                         *</span></label>
                 <p-multiSelect [options]="tableName" [style]="{ 'width.%': '100' }" name="Table"
-                    [(ngModel)]="dataRetieve.Table"  [showClear]="true" (onChange)="onTableSelect($event)"></p-multiSelect>
+                    [(ngModel)]="dataRetrieve.Table" (onChange)="onTableSelect($event)"></p-multiSelect>
+                </div>
+                <div class="row">
+                    <div class="col" style="display: grid; width: 20%;    margin-top: 10px;">
+                        <button type="submit" class="btn-block btn-primary" 
+                             (click)="onGenerateOfUpdateData()">Convert</button>
+                    </div>
+                </div>
+                
             </div>
-            <div style="display: grid; width: 20%;    margin-top: 10px;">
-                <button type="submit" class="btn-block btn-primary" 
-                     (click)="addToRetrieveDatabaseList()">ADD</button>
-            </div>
-        </div>
-    </form>
-
-    <p-table #dt [value]="retrieveDataDatabaseList" [rows]="4" [paginator]="true"
-    [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-    [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedConfiguration" [rowHover]="true" dataKey="id"
-    [showCurrentPageReport]="true">
-    <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between">
-            <h5 class="m-0">Database and Tables</h5>
-            <div class="trashButton" style="float:right">
-                <button pButton pRipple icon="pi pi-trash" class="p-button-danger"
-                    
-                    [disabled]="!selectedConfiguration || !selectedConfiguration.length"></button>
-            </div>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 4rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th pSortableColumn="name">Database Name <p-sortIcon field="name"></p-sortIcon></th>
-            <th>Tables</th>
-            
-            <th></th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-dbDetails>
-        <tr>
-            <td>
-                <p-tableCheckbox [value]="dbDetails"></p-tableCheckbox>
-            </td>
-            <td>{{ dbDetails.databaseName }}</td>
-            <td>{{ dbDetails.tableName }}</td>
-           
-            <td>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                    (click)="deleteConfigurations(dbDetails)"></button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="summary">
-        <div class="flex align-items-center justify-content-between">In total there are {{ excel ?
-            excel.length : 0 }} connection.
-             <button class="button-62" role="button" (click)="onGenerateOfReteiveData()">Generate Excel</button>
-        </div>
-        <div class="warning-msg" *ngIf="warningLabel2">
-            <i class="fa fa-warning"></i>{{errorMessage}}
-        </div>
-    </ng-template>
-
-</p-table>
+        </form>
     </p-dialog>
+
+
+    <p-confirmDialog [style]="{ width: '450px' }" ></p-confirmDialog>

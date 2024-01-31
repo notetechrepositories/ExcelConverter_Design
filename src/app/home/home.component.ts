@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { MasterService } from '../master.service';
 import { Router } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { FormsModule } from '@angular/forms';
 import { DbConfig } from '../model/DbConfig';
 import { EMPTY } from 'rxjs';
 import { DbConfigModel } from '../model/DbConfigModel';
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { DataRetrieveModel } from '../model/DataRetrieveModel';
+import { DataUpdateModel } from '../model/DataUpdateModel';
+
 
 @Component({
   selector: 'app-home',
@@ -38,24 +40,30 @@ export class HomeComponent {
   successScreen = false;
   convertErrorScreen=false;
   CreateRetrieveUpdateBtn=false;
+  isBlinking = false;
+
   dataConfig_list: any = [];
   dataConfig: any = [];
   excelData = new DbConfig();
-  dataRetieve=new DataRetrieveModel();
+  dataRetrieve=new DataRetrieveModel();
+  updateDataObject:DataUpdateModel=new DataUpdateModel();
 
   excel: any[] = [];
   excelList !: DbConfig;
   hostname: any[] = [];
   portname: any[] = [];
   databasename: any[] = [];
+  database:any[]=[];
   databaseNameList: any[] = [];
+  retrieveDataDatabaseList:any[]=[];
   finalList: any[] = [];
   host: string = '';
   port: string = '';
   visible: boolean = false ;
   Errorvisible:boolean=false;
   RetiveDataVisible:boolean=false;
-  tableName:any[]=[];
+  UpdateDataVisible:boolean=false;
+  tableName:string[]=[];
   dbTableList:any=[];
   selectedDatabaseName!: string;
   selectedTableName:any[]=[];
@@ -63,13 +71,14 @@ export class HomeComponent {
   updateDatabaseList:any;
 
   configDialog: boolean = false;
-
   selectedConfiguration!: any[] | null;
-
+  selectedDbAndTableList!: any[] | null;
   submitted: boolean = false;
-
   dialogBackgroundColor: string = '#dd4444';
-  constructor(private service: MasterService, private messageService: MessageService, private confirmationService: ConfirmationService,
+
+
+
+  constructor(private service: MasterService, private messageService: MessageService, private confirmationService: ConfirmationService, private ConfirmationServe:ConfirmationService,
     private router: Router) { }
 
 
@@ -93,7 +102,9 @@ export class HomeComponent {
   showDialog() {
     this.visible = true;
   }
-
+  stopBlinking(): void {
+    this.isBlinking = false;
+  }
 
   getDataConfiguration() {
     this.hostname = [];
@@ -103,9 +114,12 @@ export class HomeComponent {
     this.configurationForm = true;
     this.configurationFormCover=false;
     this.loadingScreen = false;
-    this.successScreen = false;
+    this.successScreen = false; 
     this.errorListBox = false;
     this.convertErrorScreen=false;
+    this.CreateRetrieveUpdateBtn=false;
+    this.isBlinking=false;
+    this.warningLabel2 = false;
 
     if (this.selectedFile) {
       console.log(this.selectedFile);
@@ -191,65 +205,79 @@ export class HomeComponent {
 
 
   onVerify() {
-    this.warningLabel2 = false;
-    const convertedConfig = {
-      host: (this.excelData.SqlHost as any).host,
-      port: (this.excelData.SqlPort as any).port,
-      username: this.excelData.SqlUsername,
-      password: this.excelData.SqlPassword,
-      databasename: []
-    }
-    this.databasename.push(this.excelData.DatabaseName);
-    this.service.verifyConfiguration(convertedConfig).subscribe((res) => {
-      if (res.status == 200) {
-        this.verifyMessage = true;
-        setTimeout(() => {
-          this.verifyMessage = false;
-          this.verifyButton=true;
-        }, 3000);
-        this.invalidMessage = false;
-        this.verifyButton=false;
-        for (var i = 0; i < this.excelData.DatabaseName.length; i++) {
-          let db = (this.excelData.DatabaseName[i] as any).database;
-          const converted = {
-            id: Math.floor(Math.random() * 100),
-            DatabaseName: db,
-            SqlHost: convertedConfig.host,
-            SqlPort: convertedConfig.port,
-            SqlUsername: convertedConfig.username,
-            SqlPassword: convertedConfig.password
-          };
-          if ((this.excel.some(config => config.DatabaseName === converted.DatabaseName) == false) ||
-            (this.excel.some(config => config.SqlHost === converted.SqlHost) == false)
-            || (this.excel.some(config => config.SqlPort === converted.SqlPort) == false)) {
-            this.excel.push(converted);
-            console.log(this.excel);
-            
-          }
+    if(!this.excelData.SqlUsername|| !this.excelData.SqlPassword){
+ 
+        if(!this.excelData.SqlUsername) {
+          this.isBlinking = true;
         }
-        this.excelData = new DbConfig();
-        this.portname = [];
-        this.databasename = [];
-      }
-      else {
-        console.log(res.status);
-        this.invalidMessage = true;
-        this.verifyMessage = false;
-        this.verifyButton=false;
+        if(!this.excelData.SqlPassword) {
+          this.isBlinking = true;
+        }
+    }
 
-        // const box = document.getElementById('inputbox');
-        // if(box!=null){
-        //   box.style.borderColor ='red';
-        // }
-
+    else{
+      this.warningLabel2 = false;
+      const convertedConfig = {
+        host: (this.excelData.SqlHost as any).host,
+        port: (this.excelData.SqlPort as any).port,
+        username: this.excelData.SqlUsername,
+        password: this.excelData.SqlPassword,
+        databasename: []
       }
-    })
+      this.databasename.push(this.excelData.DatabaseName);
+      this.service.verifyConfiguration(convertedConfig).subscribe((res) => {
+        if (res.status == 200) {
+          this.verifyMessage = true;
+          setTimeout(() => {
+            this.verifyMessage = false;
+            this.verifyButton=true;
+          }, 3000);
+          this.invalidMessage = false;
+          this.verifyButton=false;
+          for (var i = 0; i < this.excelData.DatabaseName.length; i++) {
+            let db = (this.excelData.DatabaseName[i] as any).database;
+            const converted = {
+              id: Math.floor(Math.random() * 100),
+              DatabaseName: db,
+              SqlHost: convertedConfig.host,
+              SqlPort: convertedConfig.port,
+              SqlUsername: convertedConfig.username,
+              SqlPassword: convertedConfig.password
+            };
+            if ((this.excel.some(config => config.DatabaseName === converted.DatabaseName) == false) ||
+              (this.excel.some(config => config.SqlHost === converted.SqlHost) == false)
+              || (this.excel.some(config => config.SqlPort === converted.SqlPort) == false)) {
+              this.excel.push(converted);
+              console.log(this.excel);
+              
+            }
+          }
+          this.excelData = new DbConfig();
+          this.portname = [];
+          this.databasename = [];
+        }
+        else {
+          console.log(res.status);
+          this.invalidMessage = true;
+          this.verifyMessage = false;
+          this.verifyButton=false;
+  
+          // const box = document.getElementById('inputbox');
+          // if(box!=null){
+          //   box.style.borderColor ='red';
+          // }
+  
+        }
+      })
+    }
+   
   }
 
   inputboxClick(event:any){
     this.invalidMessage=false;
     this.verifyButton=true;
     this.verifyMessage=false;
+    this.isBlinking = false;
   }
 
 
@@ -282,34 +310,13 @@ export class HomeComponent {
   }
 
 
-  // convert() {
-  //   if (this.selectedFile) {
-  //     const formData = new FormData();
-  //     formData.append('ExcelFile', this.selectedFile);
-  //     this.service.uploadFile(formData).subscribe(
-  //       (res: any) => {
-  //         console.log(res.status)
-  //         if (res.status == 200) {
-  //           this.responseMessage = res.message;
-  //           this.errorMessage = "";
-  //         }
-  //       },
-  //       (error: any) => {
-  //         this.errorMessage = error;
-  //         this.responseMessage = "";
-  //       }
-  //     );
-  //   } else {
-  //     this.errorMessage = 'Please select a file before submitting.';
-  //   }
-  // }
 
   convertExcelData(){
     if(this.selectedFile && this.finalList != null){
       this.loadingScreen = true;
       this.service.convertExcel(this.selectedFile,this.finalList).subscribe((convertResponse:any)=>{
         
-        console.log(convertResponse);
+        console.log(this.finalList);
         if(convertResponse.status==200){
           this.loadingScreen = false;
           this.visible = false;
@@ -317,17 +324,14 @@ export class HomeComponent {
           if (this.successScreen) {
             setTimeout(() => {
               this.loadingScreen = false;
-              
               this.successScreen = false;
             }, 3000);
           }
         }
         else{
           this.convertErrorMessage=convertResponse.message;
-          console.log(this.convertErrorMessage);
           this.visible = false;
           this.Errorvisible=true;
-          this.convertErrorScreen=true;
           this.successScreen = false;
           this.loadingScreen = false;
         }
@@ -336,31 +340,13 @@ export class HomeComponent {
     }
   }
 
-// Excel generate
-
-onclickDownLoad(){
-  this.CreateRetrieveUpdateBtn = !this.CreateRetrieveUpdateBtn;
-}
-
-downloadExcel(): void {
-  this.service.generateExcelforCreation().subscribe(blob => {
-    const url = window.URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.download = 'DesignCreation.xlsx';
-    anchor.href = url;
-    anchor.click();
-    window.URL.revokeObjectURL(url);
-    this.CreateRetrieveUpdateBtn=false;
-  });
-}
-
-
 
   closeErrorWindow(){
     this.convertErrorScreen=false;
   }
 
 
+  
   deleteSelectedConfiguration() {
     console.log(this.selectedConfiguration);
     this.confirmationService.confirm({
@@ -374,7 +360,6 @@ downloadExcel(): void {
       }
     });
   }
-
 
 
   deleteConfigurations(data: any) {
@@ -394,99 +379,204 @@ downloadExcel(): void {
     this.configDialog = false;
     this.submitted = false;
   }
-database:any[]=[];
+
+// Excel generate
+
+onclickDownLoad(){
+  this.CreateRetrieveUpdateBtn = !this.CreateRetrieveUpdateBtn;
+  this.errorLabel = false;
+  this.warningLabel = false;
+  this.errorListBox=false;
+}
+
+downloadExcel(): void {
+  this.service.generateExcelforCreation().subscribe(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.download = 'DesignCreation.xlsx';
+    anchor.href = url;
+    anchor.click();
+    window.URL.revokeObjectURL(url);
+    
+  });
+}
+
+  
+
 onretrieve(){
   this.RetiveDataVisible=true;
-  this.dataRetieve.Host='';
-  this.dataRetieve.Port='';
-  this.dataRetieve.Username='';
-  this.dataRetieve.Password='';
-  this.dataRetieve.DatabaseName='';
-  this.dataRetieve.Table=[];
+  this.dataRetrieve.Host='';
+  this.dataRetrieve.Port='';
+  this.dataRetrieve.Username='';
+  this.dataRetrieve.Password='';
+  this.dataRetrieve.DatabaseName='';
+  this.databaseNameList=[];
+  this.tableName=[];
+  this.dataRetrieve.Table=[];
   this.verifyButton=true;
   this.verifyMessage=false;
   this.retrieveDataDatabaseList=[];
+  this.isBlinking=false;
+  this.warningLabel2 = false;
+
 
 }
 retrivedataVerification(){
-  this.service.retrieveSchema(this.dataRetieve).subscribe((res=>{
-    console.log(res.status);
-    
-    if(res.status == "200"){
-      this.database=res.data;
-      this.databaseNameList=Object.keys(res.data);
-      this.verifyMessage=true;
-      this.verifyButton=false;
+  if(!this.dataRetrieve.Host||!this.dataRetrieve.Port||!this.dataRetrieve.Username||!this.dataRetrieve.Password){
+    if (!this.dataRetrieve.Host){
+      this.isBlinking = true;
     }
-    else{
-      this.invalidMessage=true;
-      this.verifyButton=false;
+    if(!this.dataRetrieve.Port){
+      this.isBlinking = true;
+    }  
+      if(!this.dataRetrieve.Username){
+        this.isBlinking = true;
+      } 
+      if(!this.dataRetrieve.Password) {
+        this.isBlinking = true;
+      }
   }
-    
-  }));
+ 
+
+  else{
+    this.service.retrieveSchema(this.dataRetrieve).subscribe((res=>{
+      console.log(res.status);
+      
+      if(res.status == "200"){
+        this.database=res.data;
+        this.databaseNameList=Object.keys(res.data);
+        this.verifyMessage=true;
+        this.verifyButton=false;
+      }
+      else{
+        this.invalidMessage=true;
+        this.verifyButton=false;
+    }
+      
+    }));
+  }
+  
 }
 
 
 onDatabaseSelect(event:any) {
-  console.log(event.value)
-  this.dataRetieve.Table=[];
+  this.dataRetrieve.Table=[];
   const dbName = event.value; // Get the selected database name
   this.selectedDatabaseName = dbName;
   this.tableName = this.database[dbName]; // Get the tables for the selected database     
 } 
 
-
 onTableSelect(event: any) {
-  console.log("eventEntrer",event.value);
-  this.selectedTableName = event.value; // Get the selected table name
-  const convertedConfig = {
-    host:this.dataRetieve.Host,
-    port: this.dataRetieve.Port,
-    username: this.dataRetieve.Username,
-    password: this.dataRetieve.Password,
-    databaseName:this.selectedDatabaseName,
-    tableName:this.selectedTableName
-  }
+  this.selectedTableName = event.value;
+  console.log(this.selectedTableName);
+ 
 }
-
-
-retrieveDataDatabaseList:any[]=[];
 
 addToRetrieveDatabaseList(){
   const convertedConfig = {
-    host:this.dataRetieve.Host,
-    port: this.dataRetieve.Port,
-    username: this.dataRetieve.Username,
-    password: this.dataRetieve.Password,
+    host:this.dataRetrieve.Host,
+    port: this.dataRetrieve.Port,
+    username: this.dataRetrieve.Username,
+    password: this.dataRetrieve.Password,
     databaseName:this.selectedDatabaseName,
     tableName:this.selectedTableName
   }
-  this.retrieveDataDatabaseList.push(convertedConfig) ;
+
+  const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
+  if (indexToRemove !== -1) {
+    this.databaseNameList.splice(indexToRemove, 1);
+  }
   console.log(this.retrieveDataDatabaseList); 
+  console.log(this.databaseNameList);
+  // const existingConfigIndex = this.retrieveDataDatabaseList.findIndex(
+  //   config =>
+  //     config.databaseName === this.selectedDatabaseName &&
+  //     config.tableName === this.selectedTableName
+  // );
+  
+  // if (existingConfigIndex !== -1) {
+  //   // Update the existing object
+  //   this.retrieveDataDatabaseList[existingConfigIndex] = convertedConfig;
+  // } else {
+  //   // Add a new object
+  //   this.retrieveDataDatabaseList.push(convertedConfig);
+  // }
+  
 }
+
+
+deleteSelectedList() {
+  this.confirmationService.confirm({
+    message: 'Are you sure you want to delete the selected database and  table list?',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => !this.selectedDbAndTableList?.includes(val));
+      this.selectedDbAndTableList = [];
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000 });
+    } 
+  });
+  this.retrieveDataDatabaseList=[];
+  console.log(this.retrieveDataDatabaseList);
+}
+
+
+deleteList(data: any) {
+  this.confirmationService.confirm({
+    message: 'Are you sure you want to delete database?',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => (val.databaseName !== data.databaseName));
+      this.selectedDbAndTableList = [];
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
+    }
+  });
+}
+
 
 onGenerateOfReteiveData(){
   console.log(this.retrieveDataDatabaseList);
+  
+ if(this.retrieveDataDatabaseList.length>0){
   this.service.generateSpreadsheetForRetriveData(this.retrieveDataDatabaseList).subscribe(blob=>{
+    console.log(blob);
     this.downloadFile(blob, 'STM_SpreadSheetFiles.zip');
   }, error => {
     console.error('Error downloading the file.');
   });
+ }
+ else{
+  this.errorMessage = 'Not found the database and table list';
+  this.warningLabel2 = true;
+ }
+  
+}
+
+onUpdateClick(){
+  this.UpdateDataVisible=true;
+  this.dataRetrieve.Host='';
+  this.dataRetrieve.Port='';
+  this.dataRetrieve.Username='';
+  this.dataRetrieve.Password='';
+  this.dataRetrieve.DatabaseName='';
+  this.dataRetrieve.Table=[];
+  this.verifyButton=true;
+  this.verifyMessage=false;
 }
 
 onGenerateOfUpdateData(){
-  const convertedConfig = {
-    host:this.dataRetieve.Host,
-    port: this.dataRetieve.Port,
-    username: this.dataRetieve.Username,
-    password: this.dataRetieve.Password,
-    databaseName:this.selectedDatabaseName,
-    tableName:this.selectedTableName
-  }
-  console.log(convertedConfig);
   
-  this.service.generateSpreadsheetForRetriveData(convertedConfig).subscribe(blob=>{
-    this.downloadFile(blob, this.selectedDatabaseName + '.xlsx');
+  this.updateDataObject.host=this.dataRetrieve.Host;
+  this.updateDataObject.port=this.dataRetrieve.Port;
+  this.updateDataObject.username= this.dataRetrieve.Username;
+  this.updateDataObject.password=this.dataRetrieve.Password;
+  this.updateDataObject.databaseName=this.selectedDatabaseName;
+  this.updateDataObject.tableName=this.selectedTableName;
+
+  var fileName=this.selectedDatabaseName+'.xlsx';
+  this.service.generateSpreadsheetForUpdateData(this.updateDataObject).subscribe((res)=>{
+    this.downloadFile(res, fileName);
   }, error => {
     console.error('Error downloading the file.');
   });
@@ -503,4 +593,17 @@ private downloadFile(data: Blob, filename: string) {
   window.URL.revokeObjectURL(url);
   anchor.remove();
 }
+
+downloadPDFTemplate(): void {
+  this.service.downloadFileForDownload().subscribe(blob => {
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'dummy.pdf'; // Adjust the filename as needed
+    link.click();
+  });
 }
+
+}
+
+
+
