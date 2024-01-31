@@ -63,7 +63,7 @@ export class HomeComponent {
   Errorvisible:boolean=false;
   RetiveDataVisible:boolean=false;
   UpdateDataVisible:boolean=false;
-  tableName:string[]=[];
+  tableName:any[]=[];
   dbTableList:any=[];
   selectedDatabaseName!: string;
   selectedTableName:any[]=[];
@@ -102,6 +102,7 @@ export class HomeComponent {
   showDialog() {
     this.visible = true;
   }
+  
   stopBlinking(): void {
     this.isBlinking = false;
   }
@@ -126,8 +127,6 @@ export class HomeComponent {
       
       const formData = new FormData();
       formData.append('excelFile', this.selectedFile);
-      // this.service.verifyExcelSheet(formData).subscribe((res: any) => {
-      //   if (res.status == 200) {
           this.service.getDataConfiguration(formData).subscribe(
             (fileres: any) => {
               if (fileres.status === 200) {
@@ -150,9 +149,9 @@ export class HomeComponent {
                 console.error('Error retrieving database configurations:', fileres.message);
                 this.responseMessage = fileres.message;
                 console.log(this.responseMessage);
-                
-                this.errorLabel = true;
+
                 this.warningLabel = false;
+                this.errorListBox = true;
               }
             }
           );
@@ -278,6 +277,7 @@ export class HomeComponent {
     this.verifyButton=true;
     this.verifyMessage=false;
     this.isBlinking = false;
+    this.warningLabel2 = false;
   }
 
 
@@ -390,6 +390,7 @@ onclickDownLoad(){
 }
 
 downloadExcel(): void {
+  this.errorListBox = false;
   this.service.generateExcelforCreation().subscribe(blob => {
     const url = window.URL.createObjectURL(blob);
     const anchor = document.createElement('a');
@@ -418,9 +419,10 @@ onretrieve(){
   this.retrieveDataDatabaseList=[];
   this.isBlinking=false;
   this.warningLabel2 = false;
-
-
+  this.errorListBox = false;
 }
+
+
 retrivedataVerification(){
   if(!this.dataRetrieve.Host||!this.dataRetrieve.Port||!this.dataRetrieve.Username||!this.dataRetrieve.Password){
     if (!this.dataRetrieve.Host){
@@ -460,6 +462,8 @@ retrivedataVerification(){
 
 
 onDatabaseSelect(event:any) {
+  this.tableName=[];
+  this.selectedTableName=[];
   this.dataRetrieve.Table=[];
   const dbName = event.value; // Get the selected database name
   this.selectedDatabaseName = dbName;
@@ -472,6 +476,7 @@ onTableSelect(event: any) {
  
 }
 
+
 addToRetrieveDatabaseList(){
   const convertedConfig = {
     host:this.dataRetrieve.Host,
@@ -481,7 +486,21 @@ addToRetrieveDatabaseList(){
     databaseName:this.selectedDatabaseName,
     tableName:this.selectedTableName
   }
-  this.retrieveDataDatabaseList.push(convertedConfig) ;
+  const existingConfig = this.retrieveDataDatabaseList.find(config => config.databaseName === convertedConfig.databaseName);
+
+  if (existingConfig) {
+    // If found, update the existing config
+    existingConfig.host = convertedConfig.host;
+    existingConfig.port = convertedConfig.port;
+    existingConfig.username = convertedConfig.username;
+    existingConfig.password = convertedConfig.password;
+    existingConfig.tableName = convertedConfig.tableName; 
+
+  } else {
+    // If not found, add the new config to the list
+    this.retrieveDataDatabaseList.push(convertedConfig);
+  }
+  console.log(this.retrieveDataDatabaseList);
 
   // const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
   // if (indexToRemove !== -1) {
@@ -548,6 +567,7 @@ onUpdateClick(){
   this.dataRetrieve.Table=[];
   this.verifyButton=true;
   this.verifyMessage=false;
+  this.errorListBox = false;
 }
 
 onGenerateOfUpdateData(){

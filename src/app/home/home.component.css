@@ -231,7 +231,7 @@ input::file-selector-button:active {
 .success-msg,
 .warning-msg,
 .error-msg {
-  margin: -2px -4px;
+  margin: -62px -4px;
   padding: 10px;
   border-radius: 6px;
   width: 607px;
@@ -274,10 +274,10 @@ input::file-selector-button:active {
   border-color: #00a97f;
   margin-top: 20px;
   padding: 10px 10px 10px 10px;
-  border: 1px solid rgba(224, 9, 9, 0.74);
+  border: 1px solid rgba(252, 237, 237, 0.74);
   border-radius: 7px;
   width: 598px;
-  margin: 37px 0px 64px 0px;
+  margin: -45px 0px 64px 0px;
 }
 
 .error-box-content {
@@ -337,9 +337,9 @@ span {
   padding: 35px 50px 1px 50px;
   min-height: 334px;
   width: 100%;
-  background: rgb(239, 255, 254);
+  background: #f5fffef1;
   border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
 
 }
