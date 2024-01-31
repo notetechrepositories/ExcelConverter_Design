@@ -3,7 +3,7 @@ import { MasterService } from '../master.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { FormsModule } from '@angular/forms';
 import { DbConfig } from '../model/DbConfig';
 import { EMPTY } from 'rxjs';
 import { DbConfigModel } from '../model/DbConfigModel';
@@ -40,6 +40,8 @@ export class HomeComponent {
   successScreen = false;
   convertErrorScreen=false;
   CreateRetrieveUpdateBtn=false;
+  isBlinking = false;
+
   dataConfig_list: any = [];
   dataConfig: any = [];
   excelData = new DbConfig();
@@ -69,13 +71,14 @@ export class HomeComponent {
   updateDatabaseList:any;
 
   configDialog: boolean = false;
-
   selectedConfiguration!: any[] | null;
-
+  selectedDbAndTableList!: any[] | null;
   submitted: boolean = false;
-
   dialogBackgroundColor: string = '#dd4444';
-  constructor(private service: MasterService, private messageService: MessageService, private confirmationService: ConfirmationService,
+
+
+
+  constructor(private service: MasterService, private messageService: MessageService, private confirmationService: ConfirmationService, private ConfirmationServe:ConfirmationService,
     private router: Router) { }
 
 
@@ -99,7 +102,9 @@ export class HomeComponent {
   showDialog() {
     this.visible = true;
   }
-
+  stopBlinking(): void {
+    this.isBlinking = false;
+  }
 
   getDataConfiguration() {
     this.hostname = [];
@@ -109,10 +114,12 @@ export class HomeComponent {
     this.configurationForm = true;
     this.configurationFormCover=false;
     this.loadingScreen = false;
-    this.successScreen = false;
+    this.successScreen = false; 
     this.errorListBox = false;
     this.convertErrorScreen=false;
     this.CreateRetrieveUpdateBtn=false;
+    this.isBlinking=false;
+    this.warningLabel2 = false;
 
     if (this.selectedFile) {
       console.log(this.selectedFile);
@@ -198,65 +205,79 @@ export class HomeComponent {
 
 
   onVerify() {
-    this.warningLabel2 = false;
-    const convertedConfig = {
-      host: (this.excelData.SqlHost as any).host,
-      port: (this.excelData.SqlPort as any).port,
-      username: this.excelData.SqlUsername,
-      password: this.excelData.SqlPassword,
-      databasename: []
-    }
-    this.databasename.push(this.excelData.DatabaseName);
-    this.service.verifyConfiguration(convertedConfig).subscribe((res) => {
-      if (res.status == 200) {
-        this.verifyMessage = true;
-        setTimeout(() => {
-          this.verifyMessage = false;
-          this.verifyButton=true;
-        }, 3000);
-        this.invalidMessage = false;
-        this.verifyButton=false;
-        for (var i = 0; i < this.excelData.DatabaseName.length; i++) {
-          let db = (this.excelData.DatabaseName[i] as any).database;
-          const converted = {
-            id: Math.floor(Math.random() * 100),
-            DatabaseName: db,
-            SqlHost: convertedConfig.host,
-            SqlPort: convertedConfig.port,
-            SqlUsername: convertedConfig.username,
-            SqlPassword: convertedConfig.password
-          };
-          if ((this.excel.some(config => config.DatabaseName === converted.DatabaseName) == false) ||
-            (this.excel.some(config => config.SqlHost === converted.SqlHost) == false)
-            || (this.excel.some(config => config.SqlPort === converted.SqlPort) == false)) {
-            this.excel.push(converted);
-            console.log(this.excel);
-            
-          }
+    if(!this.excelData.SqlUsername|| !this.excelData.SqlPassword){
+ 
+        if(!this.excelData.SqlUsername) {
+          this.isBlinking = true;
         }
-        this.excelData = new DbConfig();
-        this.portname = [];
-        this.databasename = [];
-      }
-      else {
-        console.log(res.status);
-        this.invalidMessage = true;
-        this.verifyMessage = false;
-        this.verifyButton=false;
+        if(!this.excelData.SqlPassword) {
+          this.isBlinking = true;
+        }
+    }
 
-        // const box = document.getElementById('inputbox');
-        // if(box!=null){
-        //   box.style.borderColor ='red';
-        // }
-
+    else{
+      this.warningLabel2 = false;
+      const convertedConfig = {
+        host: (this.excelData.SqlHost as any).host,
+        port: (this.excelData.SqlPort as any).port,
+        username: this.excelData.SqlUsername,
+        password: this.excelData.SqlPassword,
+        databasename: []
       }
-    })
+      this.databasename.push(this.excelData.DatabaseName);
+      this.service.verifyConfiguration(convertedConfig).subscribe((res) => {
+        if (res.status == 200) {
+          this.verifyMessage = true;
+          setTimeout(() => {
+            this.verifyMessage = false;
+            this.verifyButton=true;
+          }, 3000);
+          this.invalidMessage = false;
+          this.verifyButton=false;
+          for (var i = 0; i < this.excelData.DatabaseName.length; i++) {
+            let db = (this.excelData.DatabaseName[i] as any).database;
+            const converted = {
+              id: Math.floor(Math.random() * 100),
+              DatabaseName: db,
+              SqlHost: convertedConfig.host,
+              SqlPort: convertedConfig.port,
+              SqlUsername: convertedConfig.username,
+              SqlPassword: convertedConfig.password
+            };
+            if ((this.excel.some(config => config.DatabaseName === converted.DatabaseName) == false) ||
+              (this.excel.some(config => config.SqlHost === converted.SqlHost) == false)
+              || (this.excel.some(config => config.SqlPort === converted.SqlPort) == false)) {
+              this.excel.push(converted);
+              console.log(this.excel);
+              
+            }
+          }
+          this.excelData = new DbConfig();
+          this.portname = [];
+          this.databasename = [];
+        }
+        else {
+          console.log(res.status);
+          this.invalidMessage = true;
+          this.verifyMessage = false;
+          this.verifyButton=false;
+  
+          // const box = document.getElementById('inputbox');
+          // if(box!=null){
+          //   box.style.borderColor ='red';
+          // }
+  
+        }
+      })
+    }
+   
   }
 
   inputboxClick(event:any){
     this.invalidMessage=false;
     this.verifyButton=true;
     this.verifyMessage=false;
+    this.isBlinking = false;
   }
 
 
@@ -289,27 +310,6 @@ export class HomeComponent {
   }
 
 
-  // convert() {
-  //   if (this.selectedFile) {
-  //     const formData = new FormData();
-  //     formData.append('ExcelFile', this.selectedFile);
-  //     this.service.uploadFile(formData).subscribe(
-  //       (res: any) => {
-  //         console.log(res.status)
-  //         if (res.status == 200) {
-  //           this.responseMessage = res.message;
-  //           this.errorMessage = "";
-  //         }
-  //       },
-  //       (error: any) => {
-  //         this.errorMessage = error;
-  //         this.responseMessage = "";
-  //       }
-  //     );
-  //   } else {
-  //     this.errorMessage = 'Please select a file before submitting.';
-  //   }
-  // }
 
   convertExcelData(){
     if(this.selectedFile && this.finalList != null){
@@ -340,6 +340,46 @@ export class HomeComponent {
     }
   }
 
+
+  closeErrorWindow(){
+    this.convertErrorScreen=false;
+  }
+
+
+  
+  deleteSelectedConfiguration() {
+    console.log(this.selectedConfiguration);
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected database configurations?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.excel = this.excel.filter((val) => !this.selectedConfiguration?.includes(val));
+        this.selectedConfiguration = null;
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
+      }
+    });
+  }
+
+
+  deleteConfigurations(data: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete database configuration?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.excel = this.excel.filter((val) => (val.id !== data.id));
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
+      }
+    });
+  }
+
+
+  hideDialog() {
+    this.configDialog = false;
+    this.submitted = false;
+  }
+
 // Excel generate
 
 onclickDownLoad(){
@@ -361,46 +401,7 @@ downloadExcel(): void {
   });
 }
 
-
-
-  closeErrorWindow(){
-    this.convertErrorScreen=false;
-  }
-
-
-  deleteSelectedConfiguration() {
-    console.log(this.selectedConfiguration);
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected database configurations?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.excel = this.excel.filter((val) => !this.selectedConfiguration?.includes(val));
-        this.selectedConfiguration = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
-      }
-    });
-  }
-
-
-
-  deleteConfigurations(data: any) {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete database configuration?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.excel = this.excel.filter((val) => (val.id !== data.id));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
-      }
-    });
-  }
-
-
-  hideDialog() {
-    this.configDialog = false;
-    this.submitted = false;
-  }
+  
 
 onretrieve(){
   this.RetiveDataVisible=true;
@@ -409,17 +410,33 @@ onretrieve(){
   this.dataRetrieve.Username='';
   this.dataRetrieve.Password='';
   this.dataRetrieve.DatabaseName='';
+  this.databaseNameList=[];
+  this.tableName=[];
   this.dataRetrieve.Table=[];
   this.verifyButton=true;
   this.verifyMessage=false;
   this.retrieveDataDatabaseList=[];
+  this.isBlinking=false;
+  this.warningLabel2 = false;
+
 
 }
 retrivedataVerification(){
-  if (!this.dataRetrieve.Host || !this.dataRetrieve.Port ||
-    !this.dataRetrieve.Username || !this.dataRetrieve.Password) {
-      console.log("All fields are required");
+  if(!this.dataRetrieve.Host||!this.dataRetrieve.Port||!this.dataRetrieve.Username||!this.dataRetrieve.Password){
+    if (!this.dataRetrieve.Host){
+      this.isBlinking = true;
     }
+    if(!this.dataRetrieve.Port){
+      this.isBlinking = true;
+    }  
+      if(!this.dataRetrieve.Username){
+        this.isBlinking = true;
+      } 
+      if(!this.dataRetrieve.Password) {
+        this.isBlinking = true;
+      }
+  }
+ 
 
   else{
     this.service.retrieveSchema(this.dataRetrieve).subscribe((res=>{
@@ -464,20 +481,61 @@ addToRetrieveDatabaseList(){
     databaseName:this.selectedDatabaseName,
     tableName:this.selectedTableName
   }
-  
-  
   this.retrieveDataDatabaseList.push(convertedConfig) ;
-  console.log(this.retrieveDataDatabaseList); 
+
+  // const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
+  // if (indexToRemove !== -1) {
+  //   this.databaseNameList.splice(indexToRemove, 1);
+  // }
+
+  
 }
+
+
+deleteSelectedList() {
+  this.confirmationService.confirm({
+    message: 'Are you sure you want to delete the selected database and  table list?',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => !this.selectedDbAndTableList?.includes(val));
+      this.selectedDbAndTableList = [];
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000 });
+    } 
+  });
+}
+
+
+deleteList(data: any) {
+  this.confirmationService.confirm({
+    message: 'Are you sure you want to delete database?',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => (val.databaseName !== data.databaseName));
+      this.selectedDbAndTableList = [];
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
+    }
+  });
+}
+
 
 onGenerateOfReteiveData(){
   console.log(this.retrieveDataDatabaseList);
+  
+ if(this.retrieveDataDatabaseList.length>0){
   this.service.generateSpreadsheetForRetriveData(this.retrieveDataDatabaseList).subscribe(blob=>{
     console.log(blob);
     this.downloadFile(blob, 'STM_SpreadSheetFiles.zip');
   }, error => {
     console.error('Error downloading the file.');
   });
+ }
+ else{
+  this.errorMessage = 'Not found the database and table list';
+  this.warningLabel2 = true;
+ }
+  
 }
 
 onUpdateClick(){
@@ -494,7 +552,6 @@ onUpdateClick(){
 
 onGenerateOfUpdateData(){
   
-
   this.updateDataObject.host=this.dataRetrieve.Host;
   this.updateDataObject.port=this.dataRetrieve.Port;
   this.updateDataObject.username= this.dataRetrieve.Username;
@@ -505,8 +562,6 @@ onGenerateOfUpdateData(){
   var fileName=this.selectedDatabaseName+'.xlsx';
   this.service.generateSpreadsheetForUpdateData(this.updateDataObject).subscribe((res)=>{
     this.downloadFile(res, fileName);
-    
-    
   }, error => {
     console.error('Error downloading the file.');
   });
@@ -523,4 +578,17 @@ private downloadFile(data: Blob, filename: string) {
   window.URL.revokeObjectURL(url);
   anchor.remove();
 }
+
+downloadPDFTemplate(): void {
+  this.service.downloadFileForDownload().subscribe(blob => {
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'dummy.pdf'; // Adjust the filename as needed
+    link.click();
+  });
 }
+
+}
+
+
+

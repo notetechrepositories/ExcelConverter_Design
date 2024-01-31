@@ -11,21 +11,22 @@ export class MasterService {
 
   constructor(private http:HttpClient) { }
 
-  
+ url="http://59.94.176.2:3241/api/"; 
+
   getDataConfiguration(excelFile:any): Observable<string>{
-    return this.http.post<any>("http://59.94.176.2:3241/api/extract_database_configuration_from_spreadSheet",excelFile);
+    return this.http.post<any>(this.url+"extract_database_configuration_from_spreadSheet",excelFile);
   }
 
   uploadFile(file:any): Observable<string>{
-    return this.http.post<any>("http://59.94.176.2:3241/api/DatabaseConfig/getDatabaseConfig",file);
+    return this.http.post<any>(this.url+"DatabaseConfig/getDatabaseConfig",file);
   }
 
   verifyConfiguration(excelData: any) {
-    return this.http.post<any>("http://59.94.176.2:3241/api/verify_database_configuration",excelData);
+    return this.http.post<any>(this.url+"verify_database_configuration",excelData);
   }
 
   verifyExcelSheet(data:any){
-    return this.http.post<any>("http://59.94.176.2:3241/api/ExcelSheet/verifyExcelSheet",data);
+    return this.http.post<any>(this.url+"ExcelSheet/verifyExcelSheet",data);
   }
 
   convertExcel(file:any, configList:any){
@@ -33,7 +34,7 @@ export class MasterService {
     formData.append('excelFile',file);
     formData.append('databaseConfigList',JSON.stringify(configList))
     console.log(formData);
-    return this.http.post<any>("http://59.94.176.2:3241/api/convert_spreadSheet",formData);
+    return this.http.post<any>(this.url+"convert_spreadSheet",formData);
   }
 
   generateExcelforCreation(): Observable<Blob> {
@@ -42,14 +43,14 @@ export class MasterService {
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
 
-    return this.http.get('http://59.94.176.2:3241/api/generate-spreadSheet-design-for-creation', {
+    return this.http.get(this.url+'generate-spreadSheet-design-for-creation', {
       headers: headers,
       responseType: 'blob' // This tells Angular to expect a binary file as the response
     });
   }
 
   retrieveSchema(data:any){
-    return this.http.post<any>("http://59.94.176.2:3241/api/retrieve_schema",data);
+    return this.http.post<any>(this.url+"retrieve_schema",data);
   }
   
   generateSpreadsheetForRetriveData(data:any):Observable<Blob>{
@@ -57,7 +58,7 @@ export class MasterService {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
-    return this.http.post("http://59.94.176.2:3241/api/GenerateSpreadSheetForRetrieveDatas2", data,
+    return this.http.post(this.url+"GenerateSpreadSheetForRetrieveDatas2", data,
     {headers: headers,
     responseType: 'blob'});
   }
@@ -69,10 +70,22 @@ export class MasterService {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
-    return this.http.post("http://59.94.176.2:3241/api/GenerateSpreadSheetForUpdataDatas", data,
+    return this.http.post(this.url+"GenerateSpreadSheetForUpdataDatas", data,
     {headers: headers,
     responseType: 'blob'});
   }
 
+
+  downloadFileForCreate(): Observable<Blob> {
+    const fileUrl = 'assets/file/dummy.pdf'; // Adjust the path accordingly
+    return this.http.get(fileUrl, { responseType: 'blob' });
+  }
+
+  downloadFileForDownload(): Observable<Blob> {
+    const fileUrl = 'assets/file/dummy.pdf'; // Adjust the path accordingly
+    return this.http.get(fileUrl, { responseType: 'blob' });
+  }
+
+  
  
 }

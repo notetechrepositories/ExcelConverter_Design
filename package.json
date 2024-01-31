@@ -10,6 +10,7 @@
     "production":"ng build --configuration production --base-href /stm_Angular/"
   },
   "private": true,
+  
   "dependencies": {
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",
