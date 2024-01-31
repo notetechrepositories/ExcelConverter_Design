@@ -29,7 +29,7 @@
                         <div class="error-box" *ngIf="errorListBox">
                             <h4 style='color:red;text-align: center;'><i class='fas fa-exclamation-triangle'></i> Error!
                             </h4>
-                            <div class="error-box-content" *ngFor="let error of verifyErrorMessage">
+                            <div class="error-box-content" *ngFor="let error of responseMessage">
                                 <p><i class="fa fa-times-circle"></i>&nbsp;{{error}}</p>
                             </div>
     
@@ -217,7 +217,7 @@
                             excel.length : 0 }} connection.
                              <button class="button-62" role="button" (click)="onProceed()">CONVERT</button>
                         </div>
-                        <div class="warning-msg" *ngIf="warningLabel2">
+                        <div class="warning-msg" style="margin: -2px -4px;" *ngIf="warningLabel2">
                             <i class="fa fa-warning"></i>{{errorMessage}}
                         </div>
                     </ng-template>
@@ -345,9 +345,11 @@
                 <div class="col" style="display: grid;">
                     <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Table<span
                             class="text-danger">
-                            *</span></label>
+                            *</span></label> 
                     <p-multiSelect [options]="tableName" [style]="{ 'width.%': '100' }" name="Table"
                         [(ngModel)]="dataRetrieve.Table"    (onChange)="onTableSelect($event)"></p-multiSelect>
+                        
+                       
                 </div>
 
             
@@ -400,7 +402,7 @@
                     retrieveDataDatabaseList.length : 0 }} connection.
                     <button class="button-62" role="button" (click)="onGenerateOfReteiveData()">Generate Excel</button>
                 </div>
-                <div class="warning-msg" *ngIf="warningLabel2">
+                <div class="warning-msg" style="margin: -2px -4px;" *ngIf="warningLabel2">
                     <i class="fa fa-warning"></i>{{errorMessage}}
                 </div>
             </ng-template>
