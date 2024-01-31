@@ -481,8 +481,27 @@ addToRetrieveDatabaseList(){
     databaseName:this.selectedDatabaseName,
     tableName:this.selectedTableName
   }
-  this.retrieveDataDatabaseList.push(convertedConfig) ;
+
+  const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
+  if (indexToRemove !== -1) {
+    this.databaseNameList.splice(indexToRemove, 1);
+  }
   console.log(this.retrieveDataDatabaseList); 
+  console.log(this.databaseNameList);
+  // const existingConfigIndex = this.retrieveDataDatabaseList.findIndex(
+  //   config =>
+  //     config.databaseName === this.selectedDatabaseName &&
+  //     config.tableName === this.selectedTableName
+  // );
+  
+  // if (existingConfigIndex !== -1) {
+  //   // Update the existing object
+  //   this.retrieveDataDatabaseList[existingConfigIndex] = convertedConfig;
+  // } else {
+  //   // Add a new object
+  //   this.retrieveDataDatabaseList.push(convertedConfig);
+  // }
+  
 }
 
 
@@ -492,7 +511,7 @@ deleteSelectedList() {
     header: 'Confirm',
     icon: 'pi pi-exclamation-triangle',
     accept: () => {
-      this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val1) => !this.selectedDbAndTableList?.includes(val1));
+      this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => !this.selectedDbAndTableList?.includes(val));
       this.selectedDbAndTableList = [];
       this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000 });
     } 
