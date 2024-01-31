@@ -396,8 +396,8 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">In total there are {{ excel ?
-                    excel.length : 0 }} connection.
+                <div class="flex align-items-center justify-content-between">In total there are {{ retrieveDataDatabaseList ?
+                    retrieveDataDatabaseList.length : 0 }} connection.
                     <button class="button-62" role="button" (click)="onGenerateOfReteiveData()">Generate Excel</button>
                 </div>
                 <div class="warning-msg" *ngIf="warningLabel2">
