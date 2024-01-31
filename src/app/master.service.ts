@@ -11,7 +11,7 @@ export class MasterService {
 
   constructor(private http:HttpClient) { }
 
- url="http://192.168.0.110:3241/api/";
+ url="http://192.168.0.110:3241/api/"; 
 
   getDataConfiguration(excelFile:any): Observable<string>{
     return this.http.post<any>(this.url+"extract_database_configuration_from_spreadSheet",excelFile);
