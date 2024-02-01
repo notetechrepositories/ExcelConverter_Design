@@ -382,7 +382,6 @@ export class HomeComponent {
     this.submitted = false;
   }
 
-// Excel generate
 
 onclickDownLoad(){
   this.CreateRetrieveUpdateBtn = !this.CreateRetrieveUpdateBtn;
@@ -405,7 +404,6 @@ this.errorListBox = false;
 }
 
   
-
 onretrieve(){
   this.RetiveDataVisible=true;
   this.dataRetrieve.Host='';
@@ -421,8 +419,10 @@ onretrieve(){
   this.retrieveDataDatabaseList=[];
   this.isBlinking=false;
   this.warningLabel2 = false;
-this.errorListBox = false;
+  this.errorListBox = false;
 }
+
+
 retrivedataVerification(){
   if(!this.dataRetrieve.Host||!this.dataRetrieve.Port||!this.dataRetrieve.Username||!this.dataRetrieve.Password){
     if (!this.dataRetrieve.Host){
@@ -438,8 +438,6 @@ retrivedataVerification(){
         this.isBlinking = true;
       }
   }
- 
-
   else{
     this.service.retrieveSchema(this.dataRetrieve).subscribe((res=>{
       console.log(res.status);
@@ -470,11 +468,12 @@ this.tableName=[];
   this.tableName = this.database[dbName]; // Get the tables for the selected database     
 } 
 
+
 onTableSelect(event: any) {
   this.selectedTableName = event.value;
   console.log(this.selectedTableName);
- 
 }
+
 
 addToRetrieveDatabaseList(){
   const convertedConfig = {
@@ -488,25 +487,16 @@ addToRetrieveDatabaseList(){
   const existingConfig = this.retrieveDataDatabaseList.find(config => config.databaseName === convertedConfig.databaseName);
 
   if (existingConfig) {
-    // If found, update the existing config
     existingConfig.host = convertedConfig.host;
     existingConfig.port = convertedConfig.port;
     existingConfig.username = convertedConfig.username;
     existingConfig.password = convertedConfig.password;
     existingConfig.tableName = convertedConfig.tableName; 
-
-  } else {
-    // If not found, add the new config to the list
+  } 
+  else {
     this.retrieveDataDatabaseList.push(convertedConfig);
   }
-  console.log(this.retrieveDataDatabaseList);
-
-  // const indexToRemove = this.databaseNameList.indexOf(this.selectedDatabaseName);
-  // if (indexToRemove !== -1) {
-  //   this.databaseNameList.splice(indexToRemove, 1);
-  // }
-
-  
+  console.log(this.retrieveDataDatabaseList); 
 }
 
 
