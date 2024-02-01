@@ -63,7 +63,7 @@ export class HomeComponent {
   Errorvisible:boolean=false;
   RetiveDataVisible:boolean=false;
   UpdateDataVisible:boolean=false;
-  tableName:any[]=[];
+  tableName:string[]=[];
   dbTableList:any=[];
   selectedDatabaseName!: string;
   selectedTableName:any[]=[];
@@ -102,7 +102,6 @@ export class HomeComponent {
   showDialog() {
     this.visible = true;
   }
-  
   stopBlinking(): void {
     this.isBlinking = false;
   }
@@ -127,6 +126,8 @@ export class HomeComponent {
       
       const formData = new FormData();
       formData.append('excelFile', this.selectedFile);
+      // this.service.verifyExcelSheet(formData).subscribe((res: any) => {
+      //   if (res.status == 200) {
           this.service.getDataConfiguration(formData).subscribe(
             (fileres: any) => {
               if (fileres.status === 200) {
@@ -149,7 +150,8 @@ export class HomeComponent {
                 console.error('Error retrieving database configurations:', fileres.message);
                 this.responseMessage = fileres.message;
                 console.log(this.responseMessage);
-
+                
+                this.errorLabel = true;
                 this.warningLabel = false;
                 this.errorListBox = true;
               }
@@ -390,7 +392,7 @@ onclickDownLoad(){
 }
 
 downloadExcel(): void {
-  this.errorListBox = false;
+this.errorListBox = false;
   this.service.generateExcelforCreation().subscribe(blob => {
     const url = window.URL.createObjectURL(blob);
     const anchor = document.createElement('a');
@@ -419,10 +421,8 @@ onretrieve(){
   this.retrieveDataDatabaseList=[];
   this.isBlinking=false;
   this.warningLabel2 = false;
-  this.errorListBox = false;
+this.errorListBox = false;
 }
-
-
 retrivedataVerification(){
   if(!this.dataRetrieve.Host||!this.dataRetrieve.Port||!this.dataRetrieve.Username||!this.dataRetrieve.Password){
     if (!this.dataRetrieve.Host){
@@ -462,7 +462,7 @@ retrivedataVerification(){
 
 
 onDatabaseSelect(event:any) {
-  this.tableName=[];
+this.tableName=[];
   this.selectedTableName=[];
   this.dataRetrieve.Table=[];
   const dbName = event.value; // Get the selected database name
@@ -475,7 +475,6 @@ onTableSelect(event: any) {
   console.log(this.selectedTableName);
  
 }
-
 
 addToRetrieveDatabaseList(){
   const convertedConfig = {
@@ -567,7 +566,7 @@ onUpdateClick(){
   this.dataRetrieve.Table=[];
   this.verifyButton=true;
   this.verifyMessage=false;
-  this.errorListBox = false;
+this.errorListBox = false;
 }
 
 onGenerateOfUpdateData(){
