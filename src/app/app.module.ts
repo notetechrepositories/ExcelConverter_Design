@@ -32,6 +32,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
+import { TooltipModule } from 'primeng/tooltip';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 
@@ -69,7 +71,9 @@ import { PaginatorModule } from 'primeng/paginator';
     MultiSelectModule,
     CardModule,
     CheckboxModule,
-    PaginatorModule
+    PaginatorModule,
+    TooltipModule,
+    ProgressSpinnerModule
     
   ],
   providers: [],
