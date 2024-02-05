@@ -6,7 +6,7 @@ import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 
 const routes: Routes = [
   {path:"home",component:HomeComponent},
-  {path:"tutorialPage", component:TutorialPageComponent}
+  {path:"tutorial-page", component:TutorialPageComponent}
 
 ];
 
