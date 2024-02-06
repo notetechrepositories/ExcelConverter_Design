@@ -61,7 +61,7 @@ export class MasterService {
     return this.http.post<any>(this.url+"retrieve_schema",data);
   }
   
-  generateSpreadsheetForRetriveData(data:any):Observable<Blob>{
+  generateSpreadsheetForRetrieveData(data:any):Observable<Blob>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -72,7 +72,7 @@ export class MasterService {
   }
 
 
-  generateSpreadsheetForRetriveAllDetails(data:any):Observable<Blob>{
+  generateSpreadsheetForRetrieveAllDetails(data:any):Observable<Blob>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'

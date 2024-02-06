@@ -648,7 +648,7 @@ export class HomeComponent {
   onGenerateOfReteiveStructure() {
     if (this.retrieveDataDatabaseList.length > 0) {
       this.isLoading = true;
-      this.service.generateSpreadsheetForRetriveData(this.retrieveDataDatabaseList).subscribe(blob => {
+      this.service.generateSpreadsheetForRetrieveData(this.retrieveDataDatabaseList).subscribe(blob => {
         console.log(blob);
         this.downloadFile(blob, 'STM_SpreadSheetFiles.zip');
         this.isLoading = false;
@@ -693,7 +693,7 @@ export class HomeComponent {
   onGenerateRetrieveData(){
     if (this.retrieveDataDatabaseList.length > 0) {
       this.isLoading = true;
-      this.service.generateSpreadsheetForRetriveAllDetails(this.retrieveDataDatabaseList).subscribe(blob => {
+      this.service.generateSpreadsheetForRetrieveAllDetails(this.retrieveDataDatabaseList).subscribe(blob => {
         console.log(blob);
         this.downloadFile(blob, 'STM_SpreadSheetFiles.zip');
         this.isLoading = false;
