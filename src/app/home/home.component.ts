@@ -567,6 +567,7 @@ export class HomeComponent {
           this.verifyButton = false;
         }
         else {
+          this.isLoading = false;
           this.invalidMessage = true;
           this.verifyButton = false;
         }
