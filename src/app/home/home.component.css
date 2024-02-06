@@ -167,7 +167,7 @@ input::file-selector-button:active {
 
 .section1 .btnSection{
   display: flex;
-  margin: 31px 130px;
+  margin: 31px 25px;
 }
 
 .section1 .button_group {
@@ -350,7 +350,7 @@ span {
   margin-bottom: 20px;
   
   padding: 35px 50px 1px 50px;
-  min-height: 334px;
+  min-height: 372px;
   width: 100%;
   background: #f5fffef1;
   border-radius: 20px;
