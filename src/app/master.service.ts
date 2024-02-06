@@ -37,6 +37,14 @@ export class MasterService {
     return this.http.post<any>(this.url+"convert_spreadSheet",formData);
   }
 
+  addTable(file:any, configList:any){
+    const formData = new FormData();
+    formData.append('excelFile',file);
+    formData.append('databaseConfigList',JSON.stringify(configList))
+    console.log(formData);
+    return this.http.post<any>(this.url+"add_table",formData);
+  }
+
   generateExcelforCreation(): Observable<Blob> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -59,6 +67,17 @@ export class MasterService {
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
     return this.http.post(this.url+"GenerateSpreadSheetForRetrieveDatas2", data,
+    {headers: headers,
+    responseType: 'blob'});
+  }
+
+
+  generateSpreadsheetForRetriveAllDetails(data:any):Observable<Blob>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    return this.http.post(this.url+"GenerateSpreadSheetForRetrieveTableFieldWithDetails", data,
     {headers: headers,
     responseType: 'blob'});
   }
