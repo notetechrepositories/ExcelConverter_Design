@@ -40,6 +40,7 @@ export class HomeComponent {
   isLoading = false;
   visible: boolean = false;
   AddTablevisible:boolean=false;
+  AddFieldvisible:boolean=false;
   Errorvisible: boolean = false;
   RetiveDataVisible: boolean = false;
   RetiveAllDataVisible:boolean= false;
@@ -197,6 +198,68 @@ export class HomeComponent {
           if (fileres.status === 200) {
             this.isLoading = false;
             this.AddTablevisible = true;
+            this.dataConfig = fileres;
+            this.dataConfig_list = Object.values(fileres);
+            console.log(this.dataConfig_list);
+            this.portname = [];
+            this.databasename = [];
+            this.excelData = new DbConfig();
+            this.excel = [];
+            let host = Object.keys(this.dataConfig_list[0]);
+            for (var i = 0; i < host.length; i++) {
+              let key = { 'host': host[i] }
+              this.hostname.push(key);
+              console.log(this.hostname);
+            }
+          }
+          else {
+            console.error('Error retrieving database configurations:', fileres.message);
+            this.responseMessage = fileres.message;
+            console.log(this.responseMessage);
+            this.isLoading = false;
+            this.warningLabel = false;
+            this.errorListBox = true;
+          }
+        }
+      );
+    }
+    else {
+      this.errorLabel = false;
+      this.warningLabel = true;
+      setTimeout(() => {
+        this.warningLabel = false;
+      }, 10000);
+
+    }
+  }
+
+  getDataConfigurationaddField() {
+    this.hostname = [];
+    this.verifyButton = true;
+    this.verifyMessage = false;
+    this.invalidMessage = false;
+    this.configurationForm = true;
+    this.configurationFormCover = false;
+    this.loadingScreen = false;
+    this.successScreen = false;
+    this.errorListBox = false;
+    this.convertErrorScreen = false;
+    this.CreateRetrieveUpdateBtn = false;
+    this.isBlinking = false;
+    this.warningLabel2 = false;
+
+
+    if (this.selectedFile) {
+      console.log(this.selectedFile);
+
+      const formData = new FormData();
+      formData.append('excelFile', this.selectedFile);
+      this.isLoading = true;
+      this.service.getDataConfiguration(formData).subscribe(
+        (fileres: any) => {
+          if (fileres.status === 200) {
+            this.isLoading = false;
+            this.AddFieldvisible = true;
             this.dataConfig = fileres;
             this.dataConfig_list = Object.values(fileres);
             console.log(this.dataConfig_list);
@@ -429,7 +492,7 @@ export class HomeComponent {
         console.log(this.finalList);
         if (convertResponse.status == 200) {
           this.loadingScreen = false;
-          this.visible = false;
+          this.AddTablevisible = false;
           Swal.fire({
             position: "center",
             icon: "success",
@@ -440,7 +503,64 @@ export class HomeComponent {
         }
         else {
           this.convertErrorMessage = convertResponse.message;
-          this.visible = false;
+          this.AddTablevisible = false;
+          this.Errorvisible = true;
+          this.successScreen = false;
+          this.loadingScreen = false;
+        }
+
+      })
+    }
+  }
+
+  onaddField(){
+    const groupedByHost = this.excel.reduce((acc, item) => {
+      const key = `${item.SqlHost}-${item.SqlPort}-${item.SqlUsername}-${item.SqlPassword}-${item.DatabaseName}`;
+      if (!acc[key]) {
+        acc[key] = {
+          host: item.SqlHost,
+          port: item.SqlPort,
+          username: item.SqlUsername,
+          password: item.SqlPassword,
+          databaseName: item.DatabaseName
+        };
+      }
+      return acc;
+    }, {});
+  
+    this.finalList = Object.values(groupedByHost);
+    console.log(this.finalList);
+    if (this.excel.length > 0) {
+      this.warningLabel2 = false;
+      this.configurationForm = false;
+      this.addFieldConvertExcelData();
+    }
+    else {
+      this.errorMessage = 'Not found the verified database configuration';
+      this.warningLabel2 = true;
+    }
+  }
+
+  addFieldConvertExcelData() {
+    if (this.selectedFile && this.finalList != null) {
+      this.loadingScreen = true;
+      this.service.addField(this.selectedFile, this.finalList).subscribe((convertResponse: any) => {
+
+        console.log(this.finalList);
+        if (convertResponse.status == 200) {
+          this.loadingScreen = false;
+          this.AddFieldvisible = false;
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Converted Successfully!",
+            showConfirmButton: false,
+            timer: 3000
+          });
+        }
+        else {
+          this.convertErrorMessage = convertResponse.message;
+          this.AddFieldvisible = false;
           this.Errorvisible = true;
           this.successScreen = false;
           this.loadingScreen = false;
@@ -698,6 +818,7 @@ export class HomeComponent {
         console.log(blob);
         this.downloadFile(blob, 'STM_SpreadSheetFiles.zip');
         this.isLoading = false;
+        
         Swal.fire({
           position: "center",
           icon: "success",
@@ -706,7 +827,7 @@ export class HomeComponent {
           timer: 3000
         });
         this.retrieveDataDatabaseList = [];
-        this.RetiveDataVisible = false;
+        this.RetiveAllDataVisible = false;
       }, error => {
         console.error('Error downloading the file.');
       });
@@ -769,11 +890,11 @@ export class HomeComponent {
     anchor.remove();
   }
 
-  downloadPDFTemplate(): void {
+  downloadPDFCreate(): void {
     this.service.downloadFileForDownload().subscribe(blob => {
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = 'dummy.pdf';
+      link.download = 'HowItsWorks.pdf';
       link.click();
     });
   }

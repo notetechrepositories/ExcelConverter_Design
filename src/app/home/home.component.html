@@ -14,13 +14,14 @@
                         10X to 100X Faster & Reduce Cost: Revolutionizing Database Design and Development</p>
                     <div class="file_selector">
                         <input type="file" class="anim" (change)="onFileSelected($event)">
-                        <a class="help-text1" (click)="downloadPDFTemplate()">Help ?</a>
+                        <a class="help-text1" (click)="downloadPDFCreate()">Help ?</a>
                     </div>
                     <div class="btnSection">
 
                         <div><a class="button" (click)="getDataConfiguration()">CREATE</a></div>
                         <div><a class="button" (click)="getDataConfigurationaddTable()">ADD TABLE</a></div>
-                        <div><a class="button">ADD FIELD</a></div>
+                        <div><a class="button" (click)="getDataConfigurationaddField()">ADD FIELD</a></div>
+                        <div><a class="button" pTooltip="Release in next version" tooltipPosition="right">UPDATE</a></div>
 
                     </div>
 
@@ -77,10 +78,10 @@
                 <a class="button" style="background: #018673; width: 250px;text-align: center;"
                     (click)="onUpdateClick()"
                     pTooltip="Download the Existing database's Excel format to update the database"
-                    tooltipPosition="bottom">Update
+                    tooltipPosition="bottom">Update Data
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
             </div>
-            <a class="help-text" (click)="downloadPDFTemplate()">Help ?</a>
+            <a class="help-text" (click)="downloadPDFCreate()">Help ?</a>
 
         </div>
 
@@ -406,7 +407,7 @@
             <ng-template pTemplate="summary">
                 <div class="flex align-items-center justify-content-between">In total there are {{ excel ?
                     excel.length : 0 }} connection.
-                    <button class="button-62" role="button" (click)="onConvert()">CONVERT</button>
+                    <button class="button-62" role="button" (click)="onaddTable()">CONVERT</button>
                 </div>
                 <div class="warning-msg" style="margin: -2px -4px;" *ngIf="warningLabel2">
                     <i class="fa fa-warning"></i>{{errorMessage}}
@@ -415,12 +416,192 @@
 
         </p-table>
     </div>
+
+        <!--------------- Convert loading screen -------------->
+
+        <div *ngIf="loadingScreen">
+            <div class="file-transfer">
+                <iframe src="https://lottie.host/embed/3f4b54f2-13f6-45d4-88f0-06526049e0e7/Js24gUMuMd.json"
+                    style="height: 207px"></iframe>
+            </div>
+            <div class="excel-file">
+                <iframe src="https://lottie.host/embed/7210d08c-d018-4750-aa95-28e2ab95ac3b/MoXZSHZ3Fo.json"
+                    style="width: 93px;margin-top: 19px;"></iframe>
+            </div>
+            <div class="mysql-logo">
+                <iframe src="https://lottie.host/embed/777a19a9-19b3-4894-8446-b3ad11cc1b69/utP1JczqKD.json"
+                    style="margin-top: -10px;margin-left: -6px;"></iframe>
+            </div>
+            <div class="text-load">
+                <div class="text">Converting &nbsp;
+                    <div class="waviy">
+                        <span style="--i:11">.</span>
+                        <span style="--i:12">.</span>
+                        <span style="--i:13">.</span>
+                    </div>
+                </div>
+                <div class="loading">
+                    <iframe src="https://lottie.host/embed/90f3cc6b-c0a9-49b1-b523-2ad85a8d9f40/ZfzTkZkmpB.json"
+                        style="margin-top: -110px;"></iframe>
+                </div>
+            </div>
+        </div>
+</p-dialog>
+
+<!--========= Add field popup =========-->
+
+<p-dialog [(visible)]="AddFieldvisible" [modal]="true" [style]="{ width: '80vw', 'min-height': '504px' }" [draggable]="false"
+[resizable]="false">
+<div *ngIf="configurationForm">
+    <p-toast></p-toast>
+    <h3 class="text-center mb-4">Database Configuration</h3>
+    <form class="form-card" onsubmit="event.preventDefault()">
+        <div class="row">
+            <div class="col" style="display: grid;">
+                <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Host<span
+                        class="text-danger">*</span></label>
+                <p-dropdown [options]="hostname" [style]="{ 'width.px': '225' }" optionLabel="host"
+                    [showClear]="true" placeholder="Select a Host" name="SqlHost" (onChange)="selectport($event)"
+                    [(ngModel)]="excelData.SqlHost"
+                    [ngClass]="{ 'blink': isBlinking && !excelData.SqlHost }"></p-dropdown>
+            </div>
+            <div class="col" style="display: grid;">
+                <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Port<span
+                        class="text-danger">
+                        *</span></label>
+                <p-dropdown [options]="portname" optionLabel="port" [style]="{ 'width.px': '225' }" name="SqlPort"
+                    [showClear]="true" placeholder="Select a Port" (onChange)="selectDatabase($event)"
+                    [(ngModel)]="excelData.SqlPort"
+                    [ngClass]="{ 'blink': isBlinking && !excelData.SqlPort }"></p-dropdown>
+            </div>
+            <div class="col" style="display: grid;">
+                <label class="form-control-label px-3" style="margin-top: 1px; margin-bottom: 5px;">Database<span
+                        class="text-danger">
+                        *</span></label>
+                <p-multiSelect [options]="databasename" [style]="{ 'width.px': '225' }" name="DatabaseName"
+                    [(ngModel)]="excelData.DatabaseName" optionLabel="database"
+                    [ngClass]="{ 'blink': isBlinking && !excelData.DatabaseName }"></p-multiSelect>
+            </div>
+            <div class="col" style="display: grid;">
+                <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
+                <input type="text" id="uname" name="SqlUsername" placeholder="Enter Username" id="inputbox"
+                    [(ngModel)]="excelData.SqlUsername" style="border: 1px solid #ccc;width:225px"
+                    (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !excelData.SqlUsername }">
+            </div>
+            <div class="col" style="display: grid;">
+                <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
+                <input type="password" id="password" name="SqlPassword" placeholder="Enter Password" id="inputbox"
+                    [(ngModel)]="excelData.SqlPassword" style="border: 1px solid #ccc;width:225px"
+                    (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !excelData.SqlPassword }">
+            </div>
+            <div class="col" style="display: grid;">
+                <button type="submit" class="btn-block btn-primary" (click)="onVerify()"
+                    *ngIf="verifyButton">Verify</button>
+                <button type="submit" class="btn-block btn-primary" *ngIf="verifyMessage"
+                    style="background: #fff; border: 2px solid #7ac142;color: #7ac142;">Verified
+                    <svg class="checkmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
+                        <path class="checkmark__check addClass" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                    </svg>
+                </button>
+                <button type="submit" class="btn-block btn-primary" *ngIf="invalidMessage"
+                    style="background: #fff; border: 2px solid #ff0000;color: #ff0000;">Invalid
+                    <svg class="crossmark addClass" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="crossmark__circle addClass" cx="26" cy="26" r="25" fill="none" />
+                        <path class="cross__path cross__path--right addClass" fill="none" d="M16,16 l20,20" />
+                        <path class="cross__path cross__path--left addClass" fill="none" d="M16,36 l20,-20" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <p-table #dt [value]="excel" [rows]="4" [paginator]="true" [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedConfiguration" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Connections</h5>
+                <div class="trashButton" style="float:right">
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteSelectedConfiguration()"
+                        [disabled]="!selectedConfiguration || !selectedConfiguration.length"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name">Host <p-sortIcon field="name"></p-sortIcon></th>
+                <th>Port</th>
+                <th pSortableColumn="price">Database Name <p-sortIcon field="price"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-excelRow>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="excelRow"></p-tableCheckbox>
+                </td>
+                <td>{{ excelRow.SqlHost }}</td>
+                <td>{{ excelRow.SqlPort }}</td>
+                <td>{{ excelRow.DatabaseName }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteConfigurations(excelRow)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">In total there are {{ excel ?
+                excel.length : 0 }} connection.
+                <button class="button-62" role="button" (click)="onaddField()">CONVERT</button>
+            </div>
+            <div class="warning-msg" style="margin: -2px -4px;" *ngIf="warningLabel2">
+                <i class="fa fa-warning"></i>{{errorMessage}}
+            </div>
+        </ng-template>
+
+    </p-table>
+</div>
+
+    <!--------------- Convert loading screen -------------->
+
+    <div *ngIf="loadingScreen">
+        <div class="file-transfer">
+            <iframe src="https://lottie.host/embed/3f4b54f2-13f6-45d4-88f0-06526049e0e7/Js24gUMuMd.json"
+                style="height: 207px"></iframe>
+        </div>
+        <div class="excel-file">
+            <iframe src="https://lottie.host/embed/7210d08c-d018-4750-aa95-28e2ab95ac3b/MoXZSHZ3Fo.json"
+                style="width: 93px;margin-top: 19px;"></iframe>
+        </div>
+        <div class="mysql-logo">
+            <iframe src="https://lottie.host/embed/777a19a9-19b3-4894-8446-b3ad11cc1b69/utP1JczqKD.json"
+                style="margin-top: -10px;margin-left: -6px;"></iframe>
+        </div>
+        <div class="text-load">
+            <div class="text">Converting &nbsp;
+                <div class="waviy">
+                    <span style="--i:11">.</span>
+                    <span style="--i:12">.</span>
+                    <span style="--i:13">.</span>
+                </div>
+            </div>
+            <div class="loading">
+                <iframe src="https://lottie.host/embed/90f3cc6b-c0a9-49b1-b523-2ad85a8d9f40/ZfzTkZkmpB.json"
+                    style="margin-top: -110px;"></iframe>
+            </div>
+        </div>
+    </div>
 </p-dialog>
 <!-- ==================  Retieve Structure From Spreadsheet POP UP   ============================ -->
 
 
 <p-dialog [(visible)]="RetiveDataVisible" [modal]="true"
-    [style]="{ 'width': '80vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+    [style]="{ 'width': '65vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
     [resizable]="false">
     <form class="form-card" onsubmit="event.preventDefault()" #myForm="ngForm">
         <div class="row">
