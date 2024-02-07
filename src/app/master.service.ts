@@ -45,6 +45,14 @@ export class MasterService {
     return this.http.post<any>(this.url+"add_table",formData);
   }
 
+  addField(file:any, configList:any){
+    const formData = new FormData();
+    formData.append('excelFile',file);
+    formData.append('databaseConfigList',JSON.stringify(configList))
+    console.log(formData);
+    return this.http.post<any>(this.url+"add_field",formData);
+  }
+
   generateExcelforCreation(): Observable<Blob> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -96,12 +104,12 @@ export class MasterService {
 
 
   downloadFileForCreate(): Observable<Blob> {
-    const fileUrl = 'assets/file/dummy.pdf'; // Adjust the path accordingly
+    const fileUrl = 'assets/file/HowItsWorks.pdf'; // Adjust the path accordingly
     return this.http.get(fileUrl, { responseType: 'blob' });
   }
 
   downloadFileForDownload(): Observable<Blob> {
-    const fileUrl = 'assets/file/dummy.pdf'; // Adjust the path accordingly
+    const fileUrl = 'assets/file/HowItsWorks.pdf'; // Adjust the path accordingly
     return this.http.get(fileUrl, { responseType: 'blob' });
   }
 

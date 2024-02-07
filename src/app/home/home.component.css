@@ -167,7 +167,7 @@ input::file-selector-button:active {
 
 .section1 .btnSection{
   display: flex;
-  margin: 31px 25px;
+  margin: 31px -37px;
 }
 
 .section1 .button_group {
