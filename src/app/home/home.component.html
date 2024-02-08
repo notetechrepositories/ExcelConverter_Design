@@ -72,7 +72,7 @@
                 <a class="button" style="background: #018673; width: 250px;text-align: center;"
                     (click)="onretrieveData()"
                     pTooltip="Convert the existing database data into Excel data"
-                    tooltipPosition="bottom">Retrive Data 
+                    tooltipPosition="bottom">Retrieve Data 
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
 
                 <a class="button" style="background: #018673; width: 250px;text-align: center;"
@@ -82,7 +82,6 @@
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
             </div>
             <a class="help-text" (click)="downloadPDFCreate()">Help ?</a>
-
         </div>
 
 
@@ -129,6 +128,7 @@
         </span>
     </div>
 </div>
+
 
 
 <!--=============================== Pop Up ==============================-->
@@ -278,12 +278,11 @@
                     style="margin-top: -110px;"></iframe>
             </div>
         </div>
-    </div>
-
-
-
-    <!-------------------------- Error Message screen ------------------->
+    </div> 
 </p-dialog>
+
+<!-------------------------- Error Message screen ------------------->
+
 <p-dialog [(visible)]="Errorvisible" [modal]="true"
     [style]="{ 'width': '40vw', 'min-height': '300px', 'background-color': dialogBackgroundColor }" [draggable]="false"
     [resizable]="false">
@@ -597,6 +596,8 @@
         </div>
     </div>
 </p-dialog>
+
+
 <!-- ==================  Retieve Structure From Spreadsheet POP UP   ============================ -->
 
 
@@ -738,10 +739,12 @@
 
 </p-dialog>
 
+
+
 <!-- ================= Retrive All details ==================== -->
 
 <p-dialog [(visible)]="RetiveAllDataVisible" [modal]="true"
-    [style]="{ 'width': '80vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+    [style]="{ 'width': '65vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
     [resizable]="false">
     <form class="form-card" onsubmit="event.preventDefault()" #myForm="ngForm">
         <div class="row">
@@ -955,6 +958,7 @@
                 </div>
             </div>
         </div>
+        
     </form>
 </p-dialog>
 
