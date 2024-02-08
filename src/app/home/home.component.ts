@@ -747,6 +747,7 @@ export class HomeComponent {
         this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => !this.selectedDbAndTableList?.includes(val));
         this.selectedDbAndTableList = [];
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000 });
+
       }
     });
   }
@@ -760,7 +761,7 @@ export class HomeComponent {
       accept: () => {
         this.retrieveDataDatabaseList = this.retrieveDataDatabaseList.filter((val) => (val.id !== data.id));
         this.selectedDbAndTableList = [];
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000 });
       }
     });
   }
