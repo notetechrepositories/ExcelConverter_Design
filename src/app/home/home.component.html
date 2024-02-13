@@ -1,6 +1,6 @@
 <main>
 
-    <!--=============================== Home Page (SECTION 1) ==============================-->
+<!--=============================== Home Page (SECTION 1) ==============================-->
 
     <div *ngIf="homepage">
         <div class="container">
@@ -53,7 +53,7 @@
         </div>
 
 
-        <!-- ===================================== SECTION 2 ======================================= -->
+<!-- ===================================== SECTION 2 ======================================= -->
 
         <div class="section2" id="section-2">
             <h3>Download Spreadsheet</h3>
@@ -72,9 +72,7 @@
                 <a class="button" style="background: #018673; width: 250px;text-align: center;"
                     (click)="onretrieveData()"
                     pTooltip="Convert the existing database data into Excel data"
-
                     tooltipPosition="bottom">Get Fields With Data 
-
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
 
                 <a class="button" style="background: #018673; width: 250px;text-align: center;"
@@ -83,7 +81,7 @@
                     tooltipPosition="bottom">Update Data
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
             </div>
-            <a class="help-text" (click)="downloadPDFCreate()">Help ?</a>
+            <a class="help-text" (click)="downloadPDFDownload()">Help ?</a>
         </div>
 
 
@@ -121,7 +119,9 @@
 <div class="progress-spinner" *ngIf="isLoading">
     <p-progressSpinner></p-progressSpinner>
 </div>
+
 <!-------------------------- Success Message screen  ------------------->
+
 <div class="Success-window" *ngIf="successScreen">
     <div class="success-text-animation">
         <span class="success-text1">Successfully</span>
@@ -447,6 +447,7 @@
                 </div>
             </div>
         </div>
+        
 </p-dialog>
 
 <!--========= Add field popup =========-->

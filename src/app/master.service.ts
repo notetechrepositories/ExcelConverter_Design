@@ -109,7 +109,7 @@ export class MasterService {
   }
 
   downloadFileForDownload(): Observable<Blob> {
-    const fileUrl = 'assets/file/HowItsWorks.pdf'; // Adjust the path accordingly
+    const fileUrl = 'assets/file/Howitsworks2.pdf'; // Adjust the path accordingly
     return this.http.get(fileUrl, { responseType: 'blob' });
   }
 

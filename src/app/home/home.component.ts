@@ -456,6 +456,7 @@ export class HomeComponent {
     }
   }
 
+
   onaddTable(){
     const groupedByHost = this.excel.reduce((acc, item) => {
       const key = `${item.SqlHost}-${item.SqlPort}-${item.SqlUsername}-${item.SqlPassword}-${item.DatabaseName}`;
@@ -483,6 +484,7 @@ export class HomeComponent {
       this.warningLabel2 = true;
     }
   }
+
 
   addTableConvertExcelData() {
     if (this.selectedFile && this.finalList != null) {
@@ -513,6 +515,7 @@ export class HomeComponent {
     }
   }
 
+
   onaddField(){
     const groupedByHost = this.excel.reduce((acc, item) => {
       const key = `${item.SqlHost}-${item.SqlPort}-${item.SqlUsername}-${item.SqlPassword}-${item.DatabaseName}`;
@@ -540,6 +543,7 @@ export class HomeComponent {
       this.warningLabel2 = true;
     }
   }
+
 
   addFieldConvertExcelData() {
     if (this.selectedFile && this.finalList != null) {
@@ -576,8 +580,6 @@ export class HomeComponent {
   }
 
  
-
-
   deleteSelectedConfiguration() {
     console.log(this.selectedConfiguration);
     this.confirmationService.confirm({
@@ -591,6 +593,7 @@ export class HomeComponent {
       }
     });
   }
+
 
 
   deleteConfigurations(data: any) {
@@ -618,6 +621,7 @@ export class HomeComponent {
     this.warningLabel = false;
     this.errorListBox = false;
   }
+
 
   downloadExcel(): void {
     this.errorListBox = false;
@@ -879,6 +883,7 @@ export class HomeComponent {
     });
   }
 
+
   private downloadFile(data: Blob, filename: string) {
     const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
@@ -891,11 +896,22 @@ export class HomeComponent {
     anchor.remove();
   }
 
+
   downloadPDFCreate(): void {
     this.service.downloadFileForDownload().subscribe(blob => {
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.download = 'HowItsWorks.pdf';
+      link.click();
+    });
+  }
+
+  
+  downloadPDFDownload(): void {
+    this.service.downloadFileForDownload().subscribe(blob => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'Howitsworks2.pdf';
       link.click();
     });
   }
