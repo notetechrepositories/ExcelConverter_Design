@@ -14,7 +14,7 @@ export class MasterService {
  url="http://59.94.176.2:3241/api/"; 
 
   getDataConfiguration(excelFile:any): Observable<string>{
-    return this.http.post<any>(this.url+"extract_database_configuration_from_spreadSheet",excelFile);
+    return this.http.post<any>(this.url+"Extract_Database_Configuration_From_SpreadSheet",excelFile);
   }
 
   uploadFile(file:any): Observable<string>{
@@ -22,7 +22,7 @@ export class MasterService {
   }
 
   verifyConfiguration(excelData: any) {
-    return this.http.post<any>(this.url+"verify_database_configuration",excelData);
+    return this.http.post<any>(this.url+"Verify_Database_Configuration",excelData);
   }
 
   verifyExcelSheet(data:any){
@@ -34,7 +34,7 @@ export class MasterService {
     formData.append('excelFile',file);
     formData.append('databaseConfigList',JSON.stringify(configList))
     console.log(formData);
-    return this.http.post<any>(this.url+"convert_spreadSheet",formData);
+    return this.http.post<any>(this.url+"Create_Schemas_From_SpreadSheet",formData);
   }
 
   addTable(file:any, configList:any){
@@ -42,7 +42,7 @@ export class MasterService {
     formData.append('excelFile',file);
     formData.append('databaseConfigList',JSON.stringify(configList))
     console.log(formData);
-    return this.http.post<any>(this.url+"add_table",formData);
+    return this.http.post<any>(this.url+"Add_Tables_To_Existed_Schemas_From_SpreadSheet",formData);
   }
 
   addField(file:any, configList:any){
@@ -50,7 +50,7 @@ export class MasterService {
     formData.append('excelFile',file);
     formData.append('databaseConfigList',JSON.stringify(configList))
     console.log(formData);
-    return this.http.post<any>(this.url+"add_field",formData);
+    return this.http.post<any>(this.url+"Add_Fields_To_Existed_Schemas_From_SpreadSheet",formData);
   }
 
   generateExcelforCreation(): Observable<Blob> {
@@ -59,7 +59,7 @@ export class MasterService {
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
 
-    return this.http.get(this.url+'generate-spreadSheet-design-for-creation', {
+    return this.http.get(this.url+'Generate_SpreadSheet_For_Creation', {
       headers: headers,
       responseType: 'blob' // This tells Angular to expect a binary file as the response
     });
@@ -74,7 +74,7 @@ export class MasterService {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
-    return this.http.post(this.url+"GenerateSpreadSheetForRetrieveDatas2", data,
+    return this.http.post(this.url+"Generate_SpreadSheet_For_Retrieve_TableFields_Details", data,
     {headers: headers,
     responseType: 'blob'});
   }
@@ -85,7 +85,7 @@ export class MasterService {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
-    return this.http.post(this.url+"GenerateSpreadSheetForRetrieveTableFieldWithDetails", data,
+    return this.http.post(this.url+"Generate_SpreadSheet_For_Retrieve_TableFields_With_Data", data,
     {headers: headers,
     responseType: 'blob'});
   }
@@ -97,7 +97,7 @@ export class MasterService {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
-    return this.http.post(this.url+"GenerateSpreadSheetForUpdataDatas", data,
+    return this.http.post(this.url+"Generate_SpreadSheet_For_Updation", data,
     {headers: headers,
     responseType: 'blob'});
   }

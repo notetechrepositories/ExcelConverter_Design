@@ -68,7 +68,7 @@ export class HomeComponent {
   selectedConfiguration!: any[] | null;
   selectedDbAndTableList!: any[] | null;
 
-  host: string = '';
+  host: string = '';   
   port: string = '';
   errorMessage: string = "";
   responseMessage: string = "";
@@ -87,7 +87,7 @@ export class HomeComponent {
 
   ngOnInit() {
 
-      }
+  }
 
 
   navigateToTutorial() {
@@ -124,7 +124,6 @@ export class HomeComponent {
     this.isBlinking = false;
     this.warningLabel2 = false;
 
-
     if (this.selectedFile) {
       console.log(this.selectedFile);
 
@@ -151,7 +150,7 @@ export class HomeComponent {
             }
           }
           else {
-            console.error('Error retrieving database configurations:', fileres.message);
+            // console.error('Error retrieving database configurations:', fileres.message);
             this.responseMessage = fileres.message;
             console.log(this.responseMessage);
             this.isLoading = false;
@@ -162,6 +161,7 @@ export class HomeComponent {
       );
     }
     else {
+      this.isLoading = false;
       this.errorLabel = false;
       this.warningLabel = true;
       setTimeout(() => {
@@ -177,7 +177,7 @@ export class HomeComponent {
     this.verifyMessage = false;
     this.invalidMessage = false;
     this.configurationForm = true;
-    this.configurationFormCover = false;
+    this.configurationFormCover = false;  
     this.loadingScreen = false;
     this.successScreen = false;
     this.errorListBox = false;
@@ -186,12 +186,10 @@ export class HomeComponent {
     this.isBlinking = false;
     this.warningLabel2 = false;
 
-
     if (this.selectedFile) {
       console.log(this.selectedFile);
-
       const formData = new FormData();
-      formData.append('excelFile', this.selectedFile);
+      formData.append('excelFile', this.selectedFile); 
       this.isLoading = true;
       this.service.getDataConfiguration(formData).subscribe(
         (fileres: any) => {
@@ -212,7 +210,8 @@ export class HomeComponent {
               console.log(this.hostname);
             }
           }
-          else {
+          else 
+          {
             console.error('Error retrieving database configurations:', fileres.message);
             this.responseMessage = fileres.message;
             console.log(this.responseMessage);
@@ -386,8 +385,8 @@ export class HomeComponent {
         }
       })
     }
-
   }
+
 
   inputboxClick(event: any) {
     this.invalidMessage = false;
@@ -603,7 +602,7 @@ export class HomeComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.excel = this.excel.filter((val) => (val.id !== data.id));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Connection Deleted', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Successfull', detail: 'Connection Deleted', life: 3000 });
       }
     });
   }

@@ -712,12 +712,13 @@ span {
     padding: 35px 49px 0px 37px;
    }
    .section1 .btnSection{
-    margin: 0px 0px 0px -4px;
+    margin: 11px 0px 0px -35px;
    }
    .section1 .content .button{
     margin-top: 6px;
-    font-size: 13px;
-    margin-left: 63px;
+    font-size: 12px;
+    margin-left: 54px;
+    padding: 13px 13px 13px 13px;
    }
 
    .section1  .button_group {
