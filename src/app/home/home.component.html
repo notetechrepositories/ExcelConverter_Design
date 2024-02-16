@@ -18,10 +18,10 @@
                     </div>
                     <div class="btnSection">
 
-                        <div><a class="button" (click)="getDataConfiguration()">CREATE</a></div>
-                        <div><a class="button" (click)="getDataConfigurationaddTable()">ADD TABLE</a></div>
-                        <div><a class="button" (click)="getDataConfigurationaddField()">ADD FIELD</a></div>
-                        <div><a class="button" pTooltip="Release in next version" tooltipPosition="right">UPDATE</a></div>
+                        <div class="col=3"><a class="button" (click)="getDataConfiguration()">CREATE</a></div>
+                        <div class="col=3"><a class="button" (click)="getDataConfigurationaddTable()">ADD TABLE</a></div>
+                        <div class="col=3"><a class="button" (click)="getDataConfigurationaddField()">ADD FIELD</a></div>
+                        <div class="col=3"><a class="button" pTooltip="Release in next version" tooltipPosition="right">UPDATE</a></div>
 
                     </div>
 
@@ -57,24 +57,24 @@
         <div class="section2" id="section-2">
             <h3>Download Spreadsheet</h3>
             <hr class="gradient-line" />
-            <div class="button_c_r_u">
-                <a class="button" style="background: #018673; width: 250px;text-align: center;"
+            <div class="button_c_r_u row">
+                <a class="button col=3" style="background: #018673; width: 250px;text-align: center;margin-bottom: 10px;"
                     (click)="downloadExcel()"
                     pTooltip="Download Spreadsheet template for Creating database and tables in MYSQL "
                     tooltipPosition="bottom">Create Template
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a><br>
 
-                <a class="button" style="background: #018673;width: 250px;text-align: center;" (click)="onRetrieveStructure()"
+                <a class="button col=3" style="background: #018673;width: 250px;text-align: center;margin-bottom: 10px;" (click)="onRetrieveStructure()"
                     pTooltip="Convert the existing database table structure into Excel data" tooltipPosition="bottom">Get Fields
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a><br>
 
-                <a class="button" style="background: #018673; width: 250px;text-align: center;"
+                <a class="button col=3" style="background: #018673; width: 250px;text-align: center;margin-bottom: 10px;"
                     (click)="onretrieveData()"
                     pTooltip="Convert the existing database data into Excel data"
                     tooltipPosition="bottom">Get Fields With Data 
                     <i class="fa fa-download" style="font-size: 20px; color: white; margin-left:10px"></i></a>
 
-                <a class="button" style="background: #018673; width: 250px;text-align: center;"
+                <a class="button col=3" style="background: #018673; width: 250px;text-align: center;height: 58px;"
                     (click)="onUpdateClick()"
                     pTooltip="Download the Existing database's Excel format to update the database"
                     tooltipPosition="bottom">Update Data

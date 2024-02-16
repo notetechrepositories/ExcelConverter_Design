@@ -167,6 +167,7 @@ input::file-selector-button:active {
 
 .section1 .btnSection{
   display: flex;
+  flex-direction: row;
   margin: 31px -37px;
 }
 
@@ -708,8 +709,8 @@ span {
   .section1 .content input{
     font-size: 13px !important;
     margin-top: 0px;
-    height: 102px;
-    padding: 35px 49px 0px 37px;
+    height: 87px;
+    padding: 33px 1px 17px 35px;
    }
    .section1 .btnSection{
     margin: 11px 0px 0px -35px;
@@ -753,14 +754,19 @@ span {
   font-size: 12px;
 }
 
+.section1 .help-text1 {
+  margin: 98px -18px -42px -43px;
+}
+
 /* -------------- */
 .section2 h3{
-  font-size: 28px;
+  font-size: 23px;
     margin-top: 10px;
 }
 .section2 .button_c_r_u{
-  flex-direction: column;
-  margin: 62px;
+  display: flex;
+  padding-right: 54px;
+
 }
 }
 /* Medium screens (tablets) */
@@ -813,7 +819,9 @@ span {
   font-size: 15px !important;
  }
  .section1 .content .button{
-  margin-left: 44px;
+  margin-left: 18px;
+  margin-right: 16px;
+
  }
  .btn-block{
   width: 69%;
