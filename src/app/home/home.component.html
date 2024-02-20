@@ -289,9 +289,8 @@
     [resizable]="false">
 
     <div>
-        <h2 style='color:rgb(209, 17, 17);text-align: center;'><i class='fas fa-exclamation-triangle'></i> Error!
-        </h2>
-        <div class="convert-error-msg" style="color: #dd4444;    margin-top: 20px;"
+        <h2 style='color:rgb(209, 17, 17);text-align: center;'><i class='fas fa-exclamation-triangle'></i> Error!</h2>
+        <div class="convert-error-msg" style="color: #dd4444; margin-top:20px; justify-content:center; display:flex;"
             *ngFor="let conError of convertErrorMessage">
             <i class="fa fa-times-circle"></i>&nbsp;{{conError}}
         </div>
@@ -604,28 +603,29 @@
 
 
 <p-dialog [(visible)]="RetiveDataVisible" [modal]="true"
-    [style]="{ 'width': '65vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+    [style]="{ 'width': '84vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
     [resizable]="false">
+    <h3 class="text-center mb-4">Table Structure</h3>
     <form class="form-card" onsubmit="event.preventDefault()" #myForm="ngForm">
         <div class="row">
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Host<span class="text-danger"> *</span></label>
                 <input type="text" id="host" name="Host" placeholder="Enter Host" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Host" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Host" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Host }" required>
 
             </div>
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Port<span class="text-danger"> *</span></label>
                 <input type="text" id="port" name="Port" placeholder="Enter Port" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Port" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Port" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Port }" required>
 
             </div>
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
                 <input type="text" id="uname" name="Username" placeholder="Enter Username" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Username" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Username" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Username }"
                     required>
 
@@ -633,7 +633,7 @@
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
                 <input type="password" id="password" name="Password" placeholder="Enter Password" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Password" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Password" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Password }"
                     required>
 
@@ -676,11 +676,7 @@
                 <p-multiSelect   [options]="tableName" [style]="{ 'width.%': '100' }" name="Table"
                     [(ngModel)]="selectedTableName" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Table }"
                     (onChange)="onTableSelect($event)"></p-multiSelect >
-
-
             </div>
-
-
             <div style="display: grid; width: 20%;    margin-top: 10px;">
                 <button type="submit" class="btn-block btn-primary" (click)="addToRetrieveDatabaseList()">ADD</button>
             </div>
@@ -746,28 +742,29 @@
 <!-- ================= Retrive All details ==================== -->
 
 <p-dialog [(visible)]="RetiveAllDataVisible" [modal]="true"
-    [style]="{ 'width': '65vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
+    [style]="{ 'width': '84vw', 'min-height': '510px', 'background-color': dialogBackgroundColor }" [draggable]="false"
     [resizable]="false">
+    <h3 class="text-center mb-4">Table Structure with Data</h3>
     <form class="form-card" onsubmit="event.preventDefault()" #myForm="ngForm">
         <div class="row">
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Host<span class="text-danger"> *</span></label>
                 <input type="text" id="host" name="Host" placeholder="Enter Host" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Host" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Host" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Host }" required>
 
             </div>
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Port<span class="text-danger"> *</span></label>
                 <input type="text" id="port" name="Port" placeholder="Enter Port" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Port" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Port" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Port }" required>
 
             </div>
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Username<span class="text-danger"> *</span></label>
                 <input type="text" id="uname" name="Username" placeholder="Enter Username" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Username" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Username" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Username }"
                     required>
 
@@ -775,7 +772,7 @@
             <div class="col" style="display: grid;">
                 <label class="form-control-label px-3">Password<span class="text-danger"> *</span></label>
                 <input type="password" id="password" name="Password" placeholder="Enter Password" id="inputbox"
-                    [(ngModel)]="dataRetrieve.Password" style="border: 1px solid #ccc;width:225px"
+                    [(ngModel)]="dataRetrieve.Password" style="border: 1px solid #ccc;width:297px"
                     (click)="inputboxClick($event)" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Password }"
                     required>
 
@@ -818,14 +815,12 @@
                 <p-multiSelect   [options]="tableName" [style]="{ 'width.%': '100' }" name="Table"
                     [(ngModel)]="selectedTableName" [ngClass]="{ 'blink': isBlinking && !dataRetrieve.Table }"
                     (onChange)="onTableSelect($event)"></p-multiSelect >
-
-
             </div>
-
 
             <div style="display: grid; width: 20%;    margin-top: 10px;">
                 <button type="submit" class="btn-block btn-primary" (click)="addToRetrieveDatabaseList()">ADD</button>
             </div>
+
         </div>
     </form>
    
@@ -889,6 +884,7 @@
 <p-dialog [(visible)]="UpdateDataVisible" [modal]="true"
     [style]="{ 'width': '65vw', 'min-height': '504px', 'background-color': dialogBackgroundColor }" [draggable]="false"
     [resizable]="false">
+    <h3 class="text-center mb-4">Update Data </h3>
     <form class="form-card" onsubmit="event.preventDefault()">
         <div class="row">
             <div class="col" style="display: grid;">

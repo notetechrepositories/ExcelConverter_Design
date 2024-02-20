@@ -293,7 +293,7 @@ input::file-selector-button:active {
   border: 1px solid rgba(252, 237, 237, 0.74);
   border-radius: 7px;
   width: 598px;
-  margin: 45px 0px 64px 0px;
+  margin: 45px 0px 48px -14px;
 }
 
 .error-box-content {
@@ -771,7 +771,29 @@ span {
 }
 /* Medium screens (tablets) */
 
-@media only screen and (min-width: 601px) and (max-width: 1024px) {
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .content h1 {
+    font-size: 57px;
+    margin: 29px 0px 0px 14px;
+  }
+  .content p {
+    margin: 13px 0px 0px 19px;
+    color: #333;
+    font-size: 18px;
+    width: 447px;
+  }
+  .section1 .file_selector{
+    margin-left: -15px;
+  }
+  .section1 .button{
+    padding: 11px 20px 11px 20px;
+  }
+  .section1 .btnSection {
+    margin: 31px -2px;
+  }
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
   .bgimg1 img {
     margin-top: 250px;
     height: 85%;

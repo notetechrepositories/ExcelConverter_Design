@@ -11,6 +11,9 @@ import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { DataRetrieveModel } from '../model/DataRetrieveModel';
 import { DataUpdateModel } from '../model/DataUpdateModel';
 import Swal from 'sweetalert2';
+import { Table } from 'primeng/table';
+import { ViewChild } from '@angular/core';
+
 
 
 @Component({
@@ -79,6 +82,7 @@ export class HomeComponent {
   excelData = new DbConfig();
   dataRetrieve = new DataRetrieveModel();
   updateDataObject: DataUpdateModel = new DataUpdateModel();
+  @ViewChild('dt') dataTable !: Table;
 
 
   constructor(private service: MasterService, private messageService: MessageService, private confirmationService: ConfirmationService, private ConfirmationServe: ConfirmationService,
@@ -86,7 +90,7 @@ export class HomeComponent {
 
 
   ngOnInit() {
-
+    
   }
 
 
@@ -250,7 +254,6 @@ export class HomeComponent {
 
     if (this.selectedFile) {
       console.log(this.selectedFile);
-
       const formData = new FormData();
       formData.append('excelFile', this.selectedFile);
       this.isLoading = true;
@@ -370,7 +373,10 @@ export class HomeComponent {
               (this.excel.some(config => config.SqlHost === converted.SqlHost) == false)
               || (this.excel.some(config => config.SqlPort === converted.SqlPort) == false)) {
               this.excel.push(converted);
-              console.log(this.excel);
+              this.excel=[...this.excel];
+              if (this.dataTable) {
+                this.dataTable.first = 0; // Example usage
+              }
             }
           }
           this.excelData = new DbConfig();
@@ -603,6 +609,7 @@ export class HomeComponent {
       accept: () => {
         this.excel = this.excel.filter((val) => (val.id !== data.id));
         this.messageService.add({ severity: 'success', summary: 'Successfull', detail: 'Connection Deleted', life: 3000 });
+     
       }
     });
   }
@@ -686,6 +693,7 @@ export class HomeComponent {
           this.isLoading = false;
           this.database = res.data;
           this.databaseNameList = Object.keys(res.data);
+          this.databaseNameList=[...this.databaseNameList]
           this.verifyMessage = true;
           this.verifyButton = false;
         }
@@ -732,8 +740,9 @@ export class HomeComponent {
       }
       else {
         this.retrieveDataDatabaseList.push(convertedConfig);
+        this.retrieveDataDatabaseList = [...this.retrieveDataDatabaseList];
+        this.dataTable.first=0;
       }
-      console.log(this.retrieveDataDatabaseList);
     }
     else {
       this.isBlinking = true;
