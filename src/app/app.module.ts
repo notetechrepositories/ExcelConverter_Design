@@ -1,5 +1,6 @@
 import { NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +12,6 @@ import { TutorialPageComponent } from './tutorial-page/tutorial-page.component';
 
 // PrimeNg module
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -34,6 +34,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import {PaginatorModule} from 'primeng/paginator';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -42,13 +44,15 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     AppComponent,
     HomeComponent,
     NavigationComponent,
-    TutorialPageComponent
+    TutorialPageComponent,
+    AdminDashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-// PrimeNg Module 
+//------------------------------------- PrimeNg Module -------------------------------------------
     TableModule,
     DialogModule,
     InputTextModule,

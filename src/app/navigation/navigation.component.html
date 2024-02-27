@@ -11,16 +11,30 @@
             <div class="togglebar"></div>
         </div>
         <ul class="navmenu-items" [ngClass]="{'active': isNavMenuActive}">
-            <li class="nav-link"><a href="#">Home</a></li>
-            <li class="nav-link"><a href="#">How It's work</a></li>
-            <li class="nav-link"><a href="#">About</a></li>
-            <div class="login-register">
-                <a href="#" class="button" (click)="login()">Login</a>
+            <li class="nav-link"><a routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+            <li class="nav-link"><a routerLink="/tutorial-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">How It Works</a></li>
+            <li class="nav-link"><a href="#" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">About</a></li>
+            
+        <div class="login-register">
+                <a class="button" (click)="login()">Login</a>
                 
                 <a href="#" class="button">Sign in</a>
             </div>
         </ul>
     </nav>
+
+
+    <router-outlet></router-outlet>
+
+<footer>
+    <hr class="gradient-line" />
+    <div class="footer-logo-container">
+        <!-- <img src="assets\images\STMlogo3.png" alt="" class="footer-site-logo" > by
+        <img src="assets\images\NOTETECH LOGO 1 (1).png" alt="" class="footer-logo" > -->
+        <img src="assets\images\STMlogo3.png" alt="" class="footer-site-logo" ><p> by notetech.com</p>
+    </div>
+</footer>
+
 
 <!--================= Login PopUp =======================-->
 
@@ -40,8 +54,4 @@
             </form>
         </div>
     </p-dialog>
-    
-    
-    <app-home></app-home>
-
 </main>
