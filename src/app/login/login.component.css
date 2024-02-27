@@ -1,0 +1,42 @@
+
+.form-container{
+    padding:30px;
+    box-shadow: rgba(4, 44, 117, 0.219) 0px 1px 4px;
+    border-radius: 10px;
+    width:50vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.bordert{
+    margin-top: 30px;
+    border-top:1px solid #c6c6c6;
+	position: relative;
+    padding-top:20px
+}
+
+.bordert:after{
+    content:"or connect with";
+    position:absolute;
+    top:-13px; 
+    left:38%;
+    background-color:white; 
+    padding:0 8px;
+}
+.logo-login{
+    display: flex;
+    justify-content: center;
+    margin-bottom:20px;
+    margin-top: -38px;
+  }
+  
+  .logo-login .site-logo{
+    height: 70px;
+    margin-top: 10px;
+  }

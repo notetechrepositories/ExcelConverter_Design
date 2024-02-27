@@ -1,0 +1,55 @@
+<div class="wrapper">
+    <div class="card-block row">
+        <div class="col-md-4 col-xl-3">
+            <div class="card">
+                <h2 class="text-right"><i class="material-icons"></i><span>486 &nbsp;</span></h2>
+                <p class="m-b-0 mt-4">Company Registered<span class="f-right">351</span></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card">
+                <h2 class="text-right"><i class="material-icons"></i><span>486 &nbsp;</span></h2>
+                <p class="m-b-0 mt-4">Company Registered<span class="f-right">351</span></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card">
+                <h2 class="text-right"><i class="material-icons"></i><span>486 &nbsp;</span></h2>
+                <p class="m-b-0 mt-4">Company Registered<span class="f-right">351</span></p>
+            </div>
+        </div>
+        <div class="col-md-4 col-xl-3">
+            <div class="card">
+                <h2 class="text-right"><i class="material-icons"></i><span>486 &nbsp;</span></h2>
+                <p class="m-b-0 mt-4">Company Registered<span class="f-right">351</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-block">
+        <div class="col-12 ">
+            <h2>Registered Company Request</h2>
+            <p-table [value]="products" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '55rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>{{ product.code }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td><a href="#">View Details</a></td>
+                        <td><p-tag value="{{ptagValue}}" [rounded]="true" severity="{{severity}}"></p-tag></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</div>
