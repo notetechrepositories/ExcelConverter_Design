@@ -113,6 +113,10 @@
             </div> -->
     </div>
 
+<!-- 
+    <div>
+        <app-admin-dashboard></app-admin-dashboard>
+    </div> -->
 </main>
 
 <div class="progress-spinner" *ngIf="isLoading">
@@ -203,7 +207,7 @@
         <p-table #dt [value]="excel" [rows]="4" [paginator]="true" [tableStyle]="{ 'min-width': '75rem' }"
             [(selection)]="selectedConfiguration" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-            <ng-template pTemplate="caption">
+            <ng-template pTemplate="caption"> 
                 <div class="flex align-items-center justify-content-between">
                     <h5 class="m-0">Manage Connections</h5>
                     <div class="trashButton" style="float:right">
@@ -961,3 +965,4 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+

@@ -1,0 +1,75 @@
+<div class="container  p-4 d-flex justify-content-center align-items-center" *ngIf="LoginPage">
+    <div class="form-container">
+        <form class="row g-3" >
+            <div class="logo-login">
+                <img src="assets\images\STMlogo3.png" alt="" class="site-logo" >
+            </div>
+            <div>
+                <h3 class="text-center">Login</h3>
+                <div class="col-md-12">
+                  <label for="inputEmail4" class="form-label">Username</label>
+                  <input type="email" class="form-control" id="inputEmail4">
+                </div><br>
+                <div class="col-md-12">
+                  <label for="inputPassword4" class="form-label">Password</label>
+                  <div class="input-group">
+                    <input [type]="type" class="form-control" id="inputPassword4">
+                      <span class="input-group-text" (click)="hideShowPassword()">
+                        <i class="fa {{eyeIcon}}" aria-hidden="true"></i>
+                      </span>
+                  </div>
+                </div>
+                
+                <div class="form-inline fr mt-2 d-flex justify-content-end">
+                   <a id="forget" class="font-weight-bold ">Forget Password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-4 w-100">Login</button>
+                <div class="text-center pt-4 text-muted">Don't have Account? <a class="me-2" (click)=" login()">Sign Up</a></div> 
+                <div class="bordert text-muted">
+                  <div class="text-center py-2">
+                      <a class="me-2"><i class="fa fa-google" aria-hidden="true" style="color: rgb(32, 32, 41);"></i></a>
+                      <a class="me-2"><i class="fa fa-facebook-square" aria-hidden="true" style="color: rgb(32, 32, 41);"></i></a>
+                      <a><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+            </div>
+      
+        </form>
+    </div>
+</div>
+
+
+<div class="container mt-4 p-4 d-flex justify-content-center align-items-center" *ngIf="SignUpPage">
+    <div class="form-container">
+        <form class="row g-3" >
+            <div class="logo-login">
+                <img src="assets\images\STMlogo3.png" alt="" class="site-logo" >
+            </div>
+            <h3 class="text-center">Sign Up</h3>
+              <div class="col-md-12">
+                <label for="inputEmail4" class="form-label">Name</label>
+                <input type="email" class="form-control" id="inputEmail4">
+              </div>
+              <div class="col-md-12">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4">
+              </div>
+              <div class="col-md-12">
+                <label for="inputEmail4" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputEmail4">
+              </div>
+              <div class="col-md-12">
+                <label for="inputPassword4" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                  <input [type]="type" class="form-control" id="inputPassword4">
+                    <span class="input-group-text" (click)="hideShowPassword()">
+                      <i class="fa {{eyeIcon}}" aria-hidden="true"></i>
+                    </span>
+                </div>
+              </div>
+    
+              <button type="submit" class="btn btn-primary btn-block mt-4 w-100">Sign Up</button>
+              <div class="text-center pt-4 text-muted">Already have Account? <a class="me-2" (click)="signUp()">Login</a></div> 
+        </form>
+    </div>
+</div>

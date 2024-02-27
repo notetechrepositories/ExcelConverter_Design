@@ -97,6 +97,40 @@ span{
 }
 
 footer{
-  height:100px;
-  background: #008774;
+  margin-top: 80px;
+  height:40px;
+
+}
+.gradient-line {
+
+  margin: 22px 0 0px 0;
+  display: block;
+  border: none;
+  height: 2px;
+  background: #0071b9;
+  background: linear-gradient(
+    to right,
+    white,
+    #00b9b0,
+    #0f4944,
+    #00b9b0,
+    white
+  );
+}
+.footer-logo-container{
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+  opacity: 0.6;
+}
+footer .footer-site-logo {
+  height: 29px;
+  margin-right: 8px;
+}
+footer .footer-logo{
+  height: 28px;
+  margin-left: 8px;
+}
+footer p{
+  margin-top: 4px;
 }

@@ -85,8 +85,9 @@ export class HomeComponent {
   @ViewChild('dt') dataTable !: Table;
 
 
-  constructor(private service: MasterService, private messageService: MessageService, private confirmationService: ConfirmationService, private ConfirmationServe: ConfirmationService,
-    private router: Router) { }
+  constructor(private service: MasterService, private messageService: MessageService,
+              private confirmationService: ConfirmationService,
+              private router: Router) { }
 
 
   ngOnInit() {
@@ -586,7 +587,6 @@ export class HomeComponent {
 
  
   deleteSelectedConfiguration() {
-    console.log(this.selectedConfiguration);
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete the selected database configurations?',
       header: 'Confirm',
@@ -925,6 +925,7 @@ export class HomeComponent {
   }
 
 }
+
 
 
 
