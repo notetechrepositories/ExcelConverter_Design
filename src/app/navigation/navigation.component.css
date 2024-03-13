@@ -10,13 +10,11 @@
  
 }
 label{
-  font-weight: 500;
-  color: #008774;
+  font-weight: 400;
 }
-input{
+input {
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  padding: 7px 13px;
   display: inline-block;
   border: 1px solid #cee9e5;
   border-radius: 4px;

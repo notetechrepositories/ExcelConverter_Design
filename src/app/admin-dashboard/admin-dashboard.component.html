@@ -26,30 +26,173 @@
         </div>
     </div>
 
+    <button class="button-88" role="button" (click)="onAddCompany()"> + Add Company</button>
+
     <div class="table-block">
         <div class="col-12 ">
-            <h2>Registered Company Request</h2>
-            <p-table [value]="products" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '55rem' }">
+            <h2 class="col-md-6">Registered Company Request</h2>
+            <p-table [value]="companyDetails" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '55rem' }" [paginator]="true" [rows]="5">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Code</th>
                         <th>Name</th>
-                        <th>Category</th>
-                        <th>Action</th>
+                        <th>Location</th>
+                        <th>Email</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-product>
+                <ng-template pTemplate="body" let-company>
                     <tr>
-                        <td>{{ product.code }}</td>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.category }}</td>
-                        <td><a href="#">View Details</a></td>
-                        <td><p-tag value="{{ptagValue}}" [rounded]="true" severity="{{severity}}"></p-tag></td>
+                        <td style="width:27%">{{ company.companyname }}</td>
+                        <td style="width:27%">{{ company.city }}</td>
+                        <td style="width:27%">{{ company.email }}</td>
+                        <td style="width:15%"><p-tag value="{{company.status}}" [rounded]="true" severity="{{company.severity}}"></p-tag></td>
+                        <td style="width:4%"><button (click)="onViewDetails()" class="button-4" role="button">View</button></td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
     </div>
 
-</div>
+</div>  
+
+
+
+<!-- View Details PopUp -->
+
+<p-dialog [(visible)]="DetailsVisible"  [modal]="true" [style]="{ 'width': '55rem','padding':'0px 20px 0px 20px','box-shadow':'none'}" [draggable]="false" [resizable]="false">
+    <div >
+        <p-toast></p-toast>
+        <h3 class="text-center mb-4">Company Details</h3> 
+        <form class="row g-3">
+            <div class="col-md-12">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Email</label>
+                <input type="email" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Mobile Number</label>
+                <input type="text" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Address 1</label>
+                <input type="textarea" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Address 2 (optional)</label>
+                <input type="textarea" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Country</label>
+                <input type="text" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">State</label>
+                <input type="text" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">City/Village/Town</label>
+                <input type="text" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">ZIP Code</label>
+                <input type="text" class="form-control" readonly  [disabled]="true">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Access From Date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Access To Date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Maximum Users Allowed</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Number of Device Login</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-block mt-4 w-100 "
+              style="background: #008774; border-color: #355a64;">Accept Request</button>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-block mt-4 w-100"
+              style="background: #b90404; border-color: #b90404;">Denie Request</button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!-- Add Company Pop Up -->
+
+<p-dialog [(visible)]="AddCompanyVisible"  [modal]="true" [style]="{ 'width': '55rem','padding':'0px 20px 0px 20px','box-shadow':'none'}" [draggable]="false" [resizable]="false">
+    <div >
+        <p-toast></p-toast>
+        <h3 class="text-center mb-4">Company Details</h3> 
+        <form class="row g-3" (ngSubmit)="onSubmit()" #form="ngForm">
+            <div class="col-md-12">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Email</label>
+                <input type="email" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Mobile Number</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Address 1</label>
+                <input type="textarea" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Address 2 (optional)</label>
+                <input type="textarea" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Country</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">State</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">City/Village/Town</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">ZIP Code</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Access From Date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Access To Date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Maximum Users Allowed</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Number of Device Login</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-block mt-4 w-100 "
+              style="background: #008774; border-color: #355a64;">ADD</button>
+            </div>
+            
+        </form>
+    </div>
+</p-dialog>

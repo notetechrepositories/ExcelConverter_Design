@@ -14,12 +14,16 @@
             <li class="nav-link"><a routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
             <li class="nav-link"><a routerLink="/tutorial-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">How It Works</a></li>
             <li class="nav-link"><a href="#" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">About</a></li>
+            <div class="login-register">
+                <a class="button" (click)="onAddEmployee()"> + ADD EMPLOYEE</a>
+            </div>
+            <li><i class="fa fa-sign-out" style="font-size:30px; color:#009182;font-weight: 300;"></i></li>
             
-        <div class="login-register">
+        <!-- <div class="login-register">
                 <a class="button" (click)="login()">Login</a>
                 
                 <a href="#" class="button">Sign in</a>
-            </div>
+            </div> -->
         </ul>
     </nav>
 
@@ -54,4 +58,73 @@
             </form>
         </div>
     </p-dialog>
+
+
+    <!-- Add Company Pop Up -->
+
+<p-dialog [(visible)]="AddEmployeeVisible"  [modal]="true" [style]="{ 'width': '55rem','padding':'0px 20px 0px 20px','box-shadow':'none'}" [draggable]="false" [resizable]="false">
+    <div >
+        <p-toast></p-toast>
+        <h3 class="text-center mb-4">Company Details</h3> 
+        <form class="row g-3" (ngSubmit)="onSubmit()" #form="ngForm">
+            <div class="col-md-12">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Email</label>
+                <input type="email" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Mobile Number</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Address 1</label>
+                <input type="textarea" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Address 2 (optional)</label>
+                <input type="textarea" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Country</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">State</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">City/Village/Town</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">ZIP Code</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Access From Date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Access To Date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Maximum Users Allowed</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label  class="form-label">Number of Device Login</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-block mt-4 w-100 "
+              style="background: #008774; border-color: #355a64;">ADD</button>
+            </div>
+            
+        </form>
+    </div>
+</p-dialog>
 </main>

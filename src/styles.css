@@ -77,6 +77,8 @@ nav{
   width: 98.5%;
   height: 70px;
   background: #f5fefd;
+  /* background:transparent;
+  backdrop-filter: blur(10px); */
   color: #DAFFFB;
   border-radius: 16px;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
@@ -172,6 +174,7 @@ nav{
   -moz-transition: all ease-in 0.3s;
   -ms-transition: all ease-in 0.3s;
   -o-transition: all ease-in 0.3s;
+  cursor: pointer;
 }
 
 .navbar-container .navmenu-items .login-register .button:hover {
