@@ -11,6 +11,7 @@ export class NavigationComponent {
   loginVisible:boolean=false;
   homePage:boolean=true;
   tutorialPage:boolean=false;
+  AddEmployeeVisible:boolean=false;
 
   constructor(private router: Router) { }
 
@@ -22,19 +23,11 @@ export class NavigationComponent {
     this.isNavMenuActive = !this.isNavMenuActive;
   }
 
-  login(){
-    this.loginVisible=true;
+  onAddEmployee(){
+    this.AddEmployeeVisible=true;
   }
 
-  // navigateToHome(){
-  //   this.tutorialPage=false;
-  //   this.homePage=true;
-  //   this.router.navigate(['/home']);
-  // }
-  // navigateToTutorial() {
-  //   this.homePage=false;
-  //   this.tutorialPage=true;
-  //   this.router.navigate(['/tutorial-page']);
-    
-  // }
+  onSubmit(){
+
+  }
 }
