@@ -19,8 +19,10 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  isLoggedIn :any;
 
-  homepage = true;
+  homepage = false;
+  adminPage=false;
   tutorialPage = false;
   verifyMessage = false;
   invalidMessage = false;
@@ -80,6 +82,7 @@ export class HomeComponent {
   dataRetrieve = new DataRetrieveModel();
   updateDataObject: DataUpdateModel = new DataUpdateModel();
   @ViewChild('dt') dataTable !: Table;
+  userType!: any;
 
 
   constructor(private service: MasterService, 
@@ -89,14 +92,23 @@ export class HomeComponent {
 
 
   ngOnInit() {
+    this.loadData()
+    
+   
+    console.log(this.userType);
+    if(this.userType=="notetech"){
+      this.homepage=false;
+      this.adminPage=true;
+    }
+    else{
+      this.homepage=true;
+      this.adminPage=false;
+    }
     
   }
-
-
-  navigateToTutorial() {
-    this.router.navigate(['/tutorialPage']);
+  loadData() {
+    this.userType = localStorage.getItem('userType');
   }
-
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
