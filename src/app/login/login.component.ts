@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MasterService } from '../master.service';
+import { CompanyModel } from '../model/CompanyModel';
+import { LoginService } from './login.service';
+import { LoginModel } from '../model/LoginModel';
+
+
 
 @Component({
   selector: 'app-login',
@@ -7,22 +14,51 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
-  
+
+
+  isLoggeddIn: boolean=false;;
+  userType:any;
   type: string="password";
   isText: boolean=false;
   eyeIcon: string="fa-eye-slash";
+
+  ResetPin:boolean=false;
   LoginPage:boolean=true;
   SignUpPage:boolean=false;
+  resetForm!:FormGroup;
   loginForm !:FormGroup;
   LoginangRegistration:boolean=true;
   signUpForm !: FormGroup;
-  constructor(private fb:FormBuilder){}
+  company:CompanyModel=new CompanyModel();
+  loginModel:LoginModel=new LoginModel();
+  errorMessage!:string;
+  errorMessageView:boolean=false;
+  ForgotAndResetPage:boolean=false;
+  accessToken!:string;
+  
+  emailorphone!:string;
+  password!:string;
+  constructor(private fb:FormBuilder,
+              private router: Router,
+              private service:MasterService, 
+              private loginService:LoginService
+              ){}
 
   ngOnInit(){
+    this.loadData()
+    if (this.isLoggeddIn == true) {
+      this.router.navigate(['/home']);
+    };
+
     this.loginForm = this.fb.group({
       username:['',Validators.required],
       password:['',Validators.required]
     });
+
+    this.resetForm=this.fb.group({
+      password: ['', Validators.required],
+      newpassword: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
 
     this.signUpForm = this.fb.group({
       companyname: ['', Validators.required],
@@ -39,42 +75,124 @@ export class LoginComponent implements OnInit{
     }, { validator: this.passwordMatchValidator });
   }
 
+  loadData() {
+    this.isLoggeddIn = localStorage.getItem('accessToken')!=null;
+    this.userType = localStorage.getItem('userType');
+  }
+
+  inputboxClick(event: any) {
+    this.errorMessageView = false;
+  }
+
   hideShowPassword(){
     this.isText=!this.isText;
     this.isText?this.eyeIcon="fa-eye":this.eyeIcon="fa-eye-slash";
     this.isText?this.type="text":this.type="password";
   }
 
+  forgotPassword(){
+    this.LoginangRegistration=false;
+    this.router.navigate(['/forgot-and-reset']);
+
+  }
+
   login(){
     this.LoginPage=false;
     this.SignUpPage=true;
+    this.errorMessageView=false;
   }
   signUp(){
     this.SignUpPage=false;
     this.LoginPage=true;
-    location.reload();
+    this.errorMessageView=false;
   }
 
-  onLoginClick(){
-    if(this.loginForm.valid){
-      console.log(this.loginForm.value);
+  onLogin(){
+    const formValue = this.loginForm.value;
+    this.loginModel = new LoginModel(); 
+    this.loginModel.t6_login_pin = formValue.password;
+  
+    if (formValue.username.includes('@')) {
+      this.loginModel.t6_email = formValue.username;
+      this.loginModel.t6_mobile_no = ""; 
+    } else {
+      this.loginModel.t6_mobile_no = formValue.username;
+      this.loginModel.t6_email = ""; 
     }
-    else{
-      this.validateAllFormFields(this.loginForm);
-      alert("Your Form is Inavlid")
+  
+    this.loginService.login(this.loginModel).subscribe({
+      next: (res) => {
+        console.log(res);
+        if(res.status==200){
+          this.accessToken=res.data.access_Token;
+          localStorage.setItem('userType',res.data.user);
+          localStorage.setItem('accessToken',this.accessToken);
+          localStorage.setItem('pinUpdatedStatus',res.data.pin_updated)
+          if(res.data.pin_updated=="y"){
+            this.router.navigateByUrl('/home').then(() => {
+              window.location.reload();
+            });
+          }
+          else{
+           this.LoginangRegistration=false;
+           this.ResetPin=true;
+          }
+        }
+        else{
+          this.errorMessage=res.message;
+          console.log(this.errorMessage);
+          
+        }
+      }, 
+      error: (error) => {
+        this.errorMessage=error.error.message;
+        this.errorMessageView=true;
+      }
+    });
+  }
+    
+  resetpin(){
+    const formValue = this.resetForm.value;
+    let resetData: any={
+      t6_login_pin:formValue.password,
+      encrypted_data:"",
     }
-
+  
+  if(resetData!=null){
+   this.loginService.resetPin(resetData).subscribe({
+    next:(res)=>{
+      console.log(res);
+      this.router.navigate(['/login']);
+      this.ResetPin=false;
+      this.LoginangRegistration=true;
+    },
+    error:(error)=>{
+      console.log(error);
+    }
+   })
+  }
   }
 
   onSignUpClick(){
     if(this.signUpForm.valid){
-      console.log(this.signUpForm.value);
+    this.service.companyRegistration(this.company).subscribe({
+      next: (res) => {
+        if(res.status==200){
+          this.errorMessageView=false;
+        }
+        console.log(res);
+      },
+      error: (error) => {
+        this.errorMessage=error.error.message;
+        this.errorMessageView=true;
+      }
+    });
     }
     else{
       this.validateAllFormFields(this.signUpForm);
     }
-
   }
+
 
   private validateAllFormFields(formGroup:FormGroup){
     Object.keys(formGroup.controls).forEach(field=>{
@@ -112,4 +230,5 @@ export class LoginComponent implements OnInit{
     }
   }
   
+
 }

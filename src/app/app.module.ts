@@ -36,6 +36,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotAndResetComponent } from './forgot-and-reset/forgot-and-reset.component';
 
 
 
@@ -46,7 +47,8 @@ import { LoginComponent } from './login/login.component';
     NavigationComponent,
     TutorialPageComponent,
     AdminDashboardComponent,
-    LoginComponent
+    LoginComponent,
+    ForgotAndResetComponent
   ],
   imports: [
     BrowserModule,

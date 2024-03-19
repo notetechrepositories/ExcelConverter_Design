@@ -14,6 +14,14 @@
     color: crimson;
     margin-top: 5px;
  }
+.form-container  form .error_msg {
+    padding: 10px;
+    border-radius: 6px;
+    color: #d8000c;
+    background-color: #ffbaba;
+    margin-top: 20px;
+
+  }
 
 
 a{
@@ -49,3 +57,4 @@ a{
     margin-top: 10px;
   }
 
+ 

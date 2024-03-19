@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { DataUpdateModel } from './model/DataUpdateModel';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,28 @@ export class MasterService {
     const fileUrl = 'assets/file/Howitsworks2.pdf'; // Adjust the path accordingly
     return this.http.get(fileUrl, { responseType: 'blob' });
   }
+
+  companyRegistration(formData:any){
+      return this.http.post<any>("https://localhost:7152/api/Authentication/register_company",formData);
+    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   getCompanyData() {
     return [{

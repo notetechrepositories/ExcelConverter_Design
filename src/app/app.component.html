@@ -1,2 +1,6 @@
-<app-navigation></app-navigation>
-<!-- <app-login></app-login>   -->
+<app-login *ngIf="!isLoggedIn"></app-login>
+
+<app-navigation *ngIf="isLoggedIn"></app-navigation> 
+
+
+

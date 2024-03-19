@@ -11,8 +11,9 @@ import { DbConfig } from '../model/DbConfig';
 })
 export class TutorialPageComponent {
 
+  constructor(private router:Router){}
  ngOnInit() {
-   
+
  }
             
 }

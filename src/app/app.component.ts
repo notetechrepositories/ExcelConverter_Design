@@ -13,6 +13,23 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title: any;
+  isLoggedIn=false;
 
- 
+  constructor(private router: Router){}
+
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData(){
+    if(localStorage.getItem('accessToken') != null && localStorage.getItem('pinUpdatedStatus')=="y"){
+      this.isLoggedIn=true;
+
+    }
+    else{
+      this.isLoggedIn=false;
+      this.router.navigate(['/login']);
+    }
+ }
 }
