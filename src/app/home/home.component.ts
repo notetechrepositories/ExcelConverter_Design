@@ -703,7 +703,7 @@ export class HomeComponent {
           this.isLoading = false;
           this.database = res.data;
           this.databaseNameList = Object.keys(res.data);
-          this.databaseNameList=[...this.databaseNameList]
+          this.databaseNameList=[...this.databaseNameList];
           this.verifyMessage = true;
           this.verifyButton = false;
         }

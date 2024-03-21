@@ -12,7 +12,7 @@
 label{
   font-weight: 400;
 }
-input {
+input,select {
   width: 100%;
   padding: 7px 13px;
   display: inline-block;
@@ -24,6 +24,8 @@ input {
 input:focus{
   outline: none;
 }
+
+
 
 .button-container{
   display: flex;
@@ -131,4 +133,8 @@ footer .footer-logo{
 }
 footer p{
   margin-top: 4px;
+}
+
+.p-dropdown-items ng-star-inserted{
+  margin-right:26px;
 }

@@ -14,6 +14,11 @@ export class MasterService {
 
  url="http://59.94.176.2:3241/api/"; 
 
+ accessToken = localStorage.getItem('accessToken'); 
+ headers = new HttpHeaders({
+   'Authorization': `Bearer ${this.accessToken}`
+ });
+
   getDataConfiguration(excelFile:any): Observable<string>{
     return this.http.post<any>(this.url+"Extract_Database_Configuration_From_SpreadSheet",excelFile);
   }
@@ -118,6 +123,12 @@ export class MasterService {
       return this.http.post<any>("https://localhost:7152/api/Authentication/register_company",formData);
     }
   
+
+
+    getAuthorizedUserDetails(){
+
+      return this.http.get<any>(`https://localhost:7152/api/User/details/authorize-user`,{ headers:this.headers })
+    }
 
 
 

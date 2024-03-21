@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ForgotAndResetService } from './forgot-and-reset.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-forgot-and-reset',
@@ -164,8 +165,16 @@ resetPassword(){
 if(resetData!=null){
  this.forgotResetService.resetPassword(resetData).subscribe({
   next:(res)=>{
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Pin reset Successfully!",
+      showConfirmButton: false,
+      timer: 3000
+    });
     console.log(res);
     this.router.navigate(['/login']);
+    window.location.reload();
     this .ForgotPassword=false;
     this.ResetPassword=false;
     this.VerifyOTP=false;
