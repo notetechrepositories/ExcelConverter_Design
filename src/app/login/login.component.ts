@@ -5,6 +5,7 @@ import { MasterService } from '../master.service';
 import { CompanyModel } from '../model/CompanyModel';
 import { LoginService } from './login.service';
 import { LoginModel } from '../model/LoginModel';
+import Swal from 'sweetalert2';
 
 
 
@@ -14,7 +15,7 @@ import { LoginModel } from '../model/LoginModel';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
-
+  ForgotAndReset=false;
 
   isLoggeddIn: boolean=false;;
   userType:any;
@@ -119,7 +120,7 @@ export class LoginComponent implements OnInit{
       this.loginModel.t6_mobile_no = formValue.username;
       this.loginModel.t6_email = ""; 
     }
-  
+  if((this.loginModel.t6_email||this.loginModel.t6_mobile_no)!=null && this.loginModel.t6_login_pin!=null){
     this.loginService.login(this.loginModel).subscribe({
       next: (res) => {
         console.log(res);
@@ -134,6 +135,7 @@ export class LoginComponent implements OnInit{
             });
           }
           else{
+           localStorage.clear();
            this.LoginangRegistration=false;
            this.ResetPin=true;
           }
@@ -150,6 +152,10 @@ export class LoginComponent implements OnInit{
       }
     });
   }
+  else{
+    this.errorMessage="usernme or password required";
+  }
+  }
     
   resetpin(){
     const formValue = this.resetForm.value;
@@ -161,10 +167,19 @@ export class LoginComponent implements OnInit{
   if(resetData!=null){
    this.loginService.resetPin(resetData).subscribe({
     next:(res)=>{
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Pin reset Successfully!",
+        showConfirmButton: false,
+        timer: 3000
+      });
       console.log(res);
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
       this.ResetPin=false;
       this.LoginangRegistration=true;
+      this.ForgotAndReset=false;
+      window.location.reload();
     },
     error:(error)=>{
       console.log(error);
@@ -173,14 +188,24 @@ export class LoginComponent implements OnInit{
   }
   }
 
+
   onSignUpClick(){
     if(this.signUpForm.valid){
     this.service.companyRegistration(this.company).subscribe({
       next: (res) => {
         if(res.status==200){
           this.errorMessageView=false;
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Registered Successfully!",
+            showConfirmButton: false,
+            timer: 3000
+          });
+
+          this.signUpForm.reset();
         }
-        console.log(res);
+       
       },
       error: (error) => {
         this.errorMessage=error.error.message;
@@ -193,6 +218,12 @@ export class LoginComponent implements OnInit{
     }
   }
 
+
+
+  onForgot(){
+    this.LoginangRegistration=false;
+    this.ForgotAndReset=true;
+  }
 
   private validateAllFormFields(formGroup:FormGroup){
     Object.keys(formGroup.controls).forEach(field=>{
