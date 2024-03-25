@@ -6,12 +6,16 @@
                 <div>
                   <div class="col-md-12" [class.error]="forgotForm.controls['emailorphone'].dirty && forgotForm.hasError('required', 'emailorphone')">
                     <label class="form-label">Email or Phone</label>
-                    <input type="text" class="form-control" formControlName="emailorphone" name="emailorphone">
+                    <input type="text" class="form-control" formControlName="emailorphone" name="emailorphone" (click)="inputboxClick($event)">
                     <small *ngIf="forgotForm.controls['emailorphone'].dirty && forgotForm.hasError('required', 'emailorphone')">*Email or Phonenumber is required</small><br>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block mt-4 w-100"
+                  <button type="submit" class="btn btn-primary btn-block mt-3 w-100"
                           style="background: #008774; border-color: #355a64;">Submit
                   </button>
+
+                  <div class="error_msg" *ngIf="errorMessageView">
+                    <i class="fa fa-times-circle"></i>&nbsp;{{ errorMessage }}
+                  </div>
                 </div>
               </form>
               
@@ -31,6 +35,9 @@
               <button type="submit" class="btn btn-primary btn-block mt-4 w-100"
                 style="background: #008774; border-color: #355a64;" (click)="onVerifyOTP()">Verify
                 </button>
+                <div class="error_msg" *ngIf="errorMessageView">
+                    <i class="fa fa-times-circle"></i>&nbsp;{{ errorMessage }}
+                  </div>
             </div>
           </form>
         </div>

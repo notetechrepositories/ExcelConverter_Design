@@ -13,6 +13,8 @@ export class ForgotAndResetComponent implements OnInit{
  ForgotPassword:boolean=true;
  VerifyOTP:boolean=false;
  ResetPassword:boolean=false;
+ errorMessageView:boolean=false;
+ errorMessage!:string;
 
 
  forgotForm !:FormGroup;
@@ -69,7 +71,7 @@ constructor(private forgotResetService:ForgotAndResetService,
   }
   
   inputboxClick(event: any) {
-    
+    this.errorMessageView=false;
   }
 
 // forgot section
@@ -97,7 +99,8 @@ onforgotpassword(){
        
       },
       error: (error) => {
-        console.log(error);
+        this.errorMessage=error.error.message;
+        this.errorMessageView=true;
         
       }
     });
@@ -147,6 +150,9 @@ onVerifyOTP(){
       },
       error: (error) => {
         console.log(error);
+        
+        this.errorMessage=error.error.message;
+        this.errorMessageView=true;
       }
     });
   }
@@ -162,7 +168,7 @@ resetPassword(){
     encrypted_data:this.encryptedData
   }
 
-if(resetData!=null){
+if(resetData!=null && formValue.password==formValue.newpassword){
  this.forgotResetService.resetPassword(resetData).subscribe({
   next:(res)=>{
     Swal.fire({

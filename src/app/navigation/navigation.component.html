@@ -13,14 +13,18 @@
         <ul class="navmenu-items" [ngClass]="{'active': isNavMenuActive}">
             <li class="nav-link"><a routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
             <li class="nav-link"><a routerLink="/tutorial-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">How It Works</a></li>
-            <li class="nav-link"><a routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">About</a></li>
+            <!-- <li class="nav-link"><a routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">About</a></li> -->
             <div class="login-register" *ngIf="AddEmployeeButton">
-                <a class="button" (click)="onAddEmployeeButton()"> + ADD EMPLOYEE</a>
+                <a class="button" (click)="onAddEmployeeButton()"> <i class='bx bx-plus' ></i> ADD EMPLOYEE</a>
             </div>
             <div class="login-register" *ngIf="AddEmployeeButton">
                 <a class="button" (click)="onUserListButton()"> USERS LIST</a>
             </div>
-            <li (click)="logout()"><i class="fa fa-sign-out" style="font-size:30px; color:#009182;font-weight: 300;"></i></li>
+            <!-- <div class="profile-img"></div> -->
+            <li (click)="logout()">
+                <i class="bx bx-log-out" style="font-size:30px; color:#009182;font-weight: 300;"></i>
+            </li>
+            
             
         <!-- <div class="login-register">
                 <a class="button" (click)="login()">Login</a>
@@ -67,47 +71,51 @@
     </p-dialog>
 
 
-<!------------------------- Add Company Pop Up ----------------------------->
+<!------------------------- Add Employee Pop Up ----------------------------->
 
 <p-dialog [(visible)]="AddEmployeeVisible"  [modal]="true" [style]="{ 'width': '55rem','padding':'0px 20px 0px 20px','box-shadow':'none'}" [draggable]="false" [resizable]="false">
     <div >
         <p-toast></p-toast>
         <h3 class="text-center mb-4">User Registration</h3> 
-        <form class="row g-3"  [formGroup]="userRegForm">
+        <form class="row g-3"  [formGroup]="userRegForm"  (ngSubmit)="onAddUser()">
             <div class="col-md-12">
                 <label class="form-label">Company Name</label>
-                <input type="text" class="form-control" [value]="companyDetails.t5_company_name" [disabled]="true">
-                
+                <input type="text" class="form-control" [value]="companyDetails.t5_company_name" [disabled]="true">             
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Name</label>
-                <input type="email" class="form-control" formControlName="name">
-                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['name'].dirty && userRegForm.hasError('required','name')">*Name is required</small>
+                <input type="email" class="form-control" formControlName="name" (click)="inputboxClick($event)">
+                <!-- <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['name'].dirty && userRegForm.hasError('required','name')">*Name is required</small> -->
+                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.get('name')?.touched && userRegForm.get('name')?.errors?.['required']">*Name is required</small>
+
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Email</label>
-                <input type="text" class="form-control" formControlName="email">
-                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['email'].dirty && userRegForm.hasError('required','email')">*Email is required</small>
+                <input type="text" class="form-control" formControlName="email" (click)="inputboxClick($event)">
+                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['email'].touched && userRegForm.hasError('required','email')">*Email is required</small>
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Mobile</label>
-                <input type="text" class="form-control" formControlName="mobile">
-                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['mobile'].dirty && userRegForm.hasError('required','mobile')">*Mobile number is required</small>
+                <input type="text" class="form-control" formControlName="mobile" (keypress)="onlyNumbers($event)" maxlength="10" (click)="inputboxClick($event)">
+                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['mobile'].touched && userRegForm.hasError('required','mobile')">*Mobile number is required</small>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Is the user have Admin Privilege?</label>
-                <select class="form-control" formControlName="adminPrivilege">
+                <select class="form-control" formControlName="adminPrivilege" (click)="inputboxClick($event)">
                 <option value="" disabled selected></option>
                   <option value="y">Yes</option>
                   <option value="n">No</option>
                 </select>
-                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['adminPrivilege'].dirty && userRegForm.hasError('required','adminPrivilege')">*Required</small>
+                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['adminPrivilege'].touched && userRegForm.hasError('required','adminPrivilege')">*Required</small>
               </div>
           
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary btn-block mt-4 w-100 "
-              style="background: #008774; border-color: #355a64;" (click)="onAddUser()">ADD</button>
+              style="background: #008774; border-color: #355a64;">ADD</button>
             </div>
+            <div class="error_msg col-md-12" *ngIf="errorMessageView">
+                <i class="fa fa-times-circle"></i>&nbsp;{{ errorMessage }}
+              </div>
             
         </form>
     </div>
@@ -121,10 +129,10 @@
     <p-toast></p-toast>
     <h3 class="text-center mb-4">Employee List</h3>
 
-    <p-table #dt [value]="userDetails" [rows]="4" [paginator]="true" [tableStyle]="{ 'min-width': '75rem' }"
+    <p-table #dt [value]="userDetails" [rows]="5" [paginator]="true" [tableStyle]="{ 'min-width': '75rem','margin-top':'20px' }"
         [(selection)]="selectedUser" [rowHover]="true" dataKey="id" [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-        <ng-template pTemplate="caption">
+        <!-- <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <h5 class="m-0">Manage Connections</h5>
                 <div class="trashButton" style="float:right">
@@ -133,12 +141,12 @@
                         [disabled]="!selectedUser || !selectedUser.length"></button>
                 </div>
             </div>
-        </ng-template>
+        </ng-template> -->
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 4rem">
+                <!-- <th style="width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
+                </th> -->
                 <th pSortableColumn="name" style="width:25%">Name <p-sortIcon field="name"></p-sortIcon></th>
                 <th style="width:25%"> Email</th>
                 <th pSortableColumn="price" style="width:25%">Mobile Number</th>
@@ -146,39 +154,39 @@
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-userDetails>
             <tr>
-                <td>
-                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
-                </td>
-                <td>{{ user.t6_name }}</td>
-                <td>{{ user.t6_email }}</td>
-                <td>{{ user.t6_mobile_no }}</td>
-                <td [pEditableColumn]="user.t6_admin" pEditableColumnField="t6_admin" >
+                <!-- <td>
+                    <p-tableCheckbox [value]="userDetails"></p-tableCheckbox>
+                </td> -->
+                <td>{{ userDetails.t6_name }}</td>
+                <td>{{ userDetails.t6_email }}</td>
+                <td>{{ userDetails.t6_mobile_no }}</td>
+                <td [pEditableColumn]="userDetails.t6_admin" pEditableColumnField="t6_admin" >
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <p-dropdown [options]="statuses" appendTo="body" [(ngModel)]="user.t6_admin" [style]="{'width':'100%'}"></p-dropdown>
+                            <p-dropdown [options]="statuses" appendTo="body" [(ngModel)]="userDetails.t6_admin" [style]="{'width':'100%'}" (onChange)="updateUserPrivilege(userDetails.id_t6_company_users,$event)"></p-dropdown>
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{ user.t6_admin === 'y' ? 'Yes' : 'No' }}
+                            {{ userDetails.t6_admin === 'y' ? 'Yes' : 'No' }}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td [style]="{'float':'right'}">
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                        (click)="deleteUser()"></button>
+                        (click)="deleteUser(userDetails)"></button>
                 </td>
             </tr>
         </ng-template>
-        <!-- <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">In total there are {{ userList ?
-                userList.length : 0 }} connection.
-                <button class="button-62" role="button" (click)="onaddTable()">CONVERT</button>
+        <ng-template pTemplate="summary">
+            <div class="warning-msg" style="margin: -2px -4px; color:rgb(211, 9, 9);" *ngIf="errorMessageView">
+                <i class="fa fa-warning" style="color: rgb(211, 9, 9);"></i>&nbsp;{{errorMessage}}
             </div>
-            <div class="warning-msg" style="margin: -2px -4px;" *ngIf="warningLabel2">
-                <i class="fa fa-warning"></i>{{errorMessage}}
+            <div style="margin: -2px -4px; color:rgb(9, 211, 93);" *ngIf="successMessageView">
+                <i class="fa fa-warning" style="color: rgb(9, 211, 36);"></i>&nbsp;{{successMessage}}
             </div>
-        </ng-template> -->
+        </ng-template>
+
 
     </p-table>
 </div>

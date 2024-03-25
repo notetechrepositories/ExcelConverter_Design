@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
-import { MasterService } from '../master.service';
+import { MasterService } from '../services/master.service';
 import { CompanyModel } from '../model/CompanyModel';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -18,14 +18,27 @@ export class AdminDashboardComponent implements OnInit {
   DetailsVisible:boolean=false;
   AddCompanyVisible:boolean=false;
   AddCompanyForm !: FormGroup;
+  companyRegForm!: FormGroup;
  
-  constructor(private service:MasterService){}
+  constructor(private service:MasterService,
+              private fb:FormBuilder){}
 
 ngOnInit() {
-    // this.service.getCompanyMini().then((data) => {
-    //     this.companyDetails = data;
-    // });  
-    
+  this.companyRegForm = this.fb.group({
+    companyname: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    mobile: ['', Validators.required],
+    address: ['', Validators.required],
+    address2: [''],
+    city: ['', Validators.required],
+    country: ['', Validators.required],
+    state: ['', Validators.required],
+    zipcode: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+    accessFromdate:[''],
+    accessTodate:[''],
+    maxUsers:[''],
+    deviceLogin:['']
+  });
     
 }
 

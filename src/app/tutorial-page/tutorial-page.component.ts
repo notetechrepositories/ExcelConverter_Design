@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MasterService } from '../master.service';
+import { MasterService } from '../services/master.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { DbConfig } from '../model/DbConfig';

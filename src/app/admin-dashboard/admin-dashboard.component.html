@@ -64,7 +64,7 @@
     <div >
         <p-toast></p-toast>
         <h3 class="text-center mb-4">Company Details</h3> 
-        <form class="row g-3">
+        <form class="row g-3" >
             <div class="col-md-12">
                 <label class="form-label">Company Name</label>
                 <input type="text" class="form-control" readonly  [disabled]="true">
@@ -135,58 +135,58 @@
     <div >
         <p-toast></p-toast>
         <h3 class="text-center mb-4">Company Details</h3> 
-        <form class="row g-3" (ngSubmit)="onSubmit()" #form="ngForm">
+        <form class="row g-3" (ngSubmit)="onSubmit()" [formGroup]="companyRegForm">
             <div class="col-md-12">
                 <label class="form-label">Company Name</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" formControlName="companyname">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Email</label>
-                <input type="email" class="form-control" >
+                <input type="email" class="form-control" formControlName="email">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Mobile Number</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" formControlName="mobile">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Address 1</label>
-                <input type="textarea" class="form-control" >
+                <input type="textarea" class="form-control" formControlName="address">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Address 2 (optional)</label>
-                <input type="textarea" class="form-control" >
+                <input type="textarea" class="form-control" formControlName="address2">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Country</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" formControlName="country">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">State</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" formControlName="state">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">City/Village/Town</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" formControlName="city">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">ZIP Code</label>
-                <input type="text" class="form-control" >
+                <input type="text" class="form-control" formControlName="zipcode">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Access From Date</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" formControlName="accessFromdate">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Access To Date</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" formControlName="accessTodate">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Maximum Users Allowed</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" formControlName="maxUsers">
             </div>
             <div class="col-md-6">
                 <label  class="form-label">Number of Device Login</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" formControlName="deviceLogin">
             </div>
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary btn-block mt-4 w-100 "

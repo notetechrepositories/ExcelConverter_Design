@@ -22,8 +22,19 @@ export class UserService {
     return this.http.get<any>(`https://localhost:7152/api/User/all/company-admin`,{headers:this.headers});
   }
   
-  updateUserPrivilagebyCompany(){
-    return this.http.put<any>(`https://localhost:7152/api/User/update/user-permission`,{headers:this.headers});
+  updateUserPrivilagebyCompany(data:any){
+    return this.http.put<any>(`https://localhost:7152/api/User/update/user-permission`,data,{headers:this.headers});
+  }
+
+  getUserById(id:any){
+    return this.http.get<any>(`https://localhost:7152/api/User/details/by-userId?user_id=${id}`,{headers:this.headers})
+  }
+
+  deleteUserById(id: any){
+    console.log(this.headers);
+    
+    return this.http.delete<any>(`https://localhost:7152/api/User/delete/by-userId?deleteUserId=${id}`,{headers:this.headers})
+  
   }
 
 }
