@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DataUpdateModel } from './model/DataUpdateModel';
+import { DataUpdateModel } from '../model/DataUpdateModel';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -129,22 +129,6 @@ export class MasterService {
 
       return this.http.get<any>(`https://localhost:7152/api/User/details/authorize-user`,{ headers:this.headers })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   getCompanyData() {

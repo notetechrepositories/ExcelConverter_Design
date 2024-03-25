@@ -9,11 +9,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
- small{
-    float: right;
-    color: crimson;
-    margin-top: 5px;
- }
+
 .form-container  form .error_msg {
     padding: 10px;
     border-radius: 6px;

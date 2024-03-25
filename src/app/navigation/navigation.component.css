@@ -138,3 +138,19 @@ footer p{
 .p-dropdown-items ng-star-inserted{
   margin-right:26px;
 }
+
+/* .profile-img{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: #00b9b0;
+} */
+
+ form .error_msg {
+  padding: 10px;
+  border-radius: 6px;
+  color: #d8000c;
+  background-color: #ffbaba;
+  margin-top: 20px;
+
+}

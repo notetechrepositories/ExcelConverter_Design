@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'; 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MasterService } from './master.service';
+import { MasterService } from './services/master.service';
 import { DbConfig } from './model/DbConfig';
 import { Router } from '@angular/router';
 

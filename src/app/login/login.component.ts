@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MasterService } from '../master.service';
+import { MasterService } from '../services/master.service';
 import { CompanyModel } from '../model/CompanyModel';
 import { LoginService } from './login.service';
 import { LoginModel } from '../model/LoginModel';
@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit{
       this.loginModel.t6_mobile_no = formValue.username;
       this.loginModel.t6_email = ""; 
     }
-  if((this.loginModel.t6_email||this.loginModel.t6_mobile_no)!=null && this.loginModel.t6_login_pin!=null){
+  if((this.loginModel.t6_email||this.loginModel.t6_mobile_no)!="" && this.loginModel.t6_login_pin!=""){
     this.loginService.login(this.loginModel).subscribe({
       next: (res) => {
         console.log(res);
@@ -154,6 +154,7 @@ export class LoginComponent implements OnInit{
   }
   else{
     this.errorMessage="usernme or password required";
+    this.errorMessageView=true;
   }
   }
     

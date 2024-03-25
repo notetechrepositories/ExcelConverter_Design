@@ -160,7 +160,8 @@ nav{
 }
 
 .navbar-container .navmenu-items .login-register .button {
-  color: #009182;
+  
+  color: #DAFFFB;
   border: 2px solid #009182;
   padding: 5px 20px;
   text-transform: uppercase;
@@ -175,11 +176,13 @@ nav{
   -ms-transition: all ease-in 0.3s;
   -o-transition: all ease-in 0.3s;
   cursor: pointer;
+  border-radius:7px;
+  background: #009182;
 }
 
 .navbar-container .navmenu-items .login-register .button:hover {
-  background: #009182;
-  color: #DAFFFB;
+  background:#f5fefd;
+  color: #009182;
 }
 
 .main {
@@ -283,3 +286,16 @@ nav{
   transform: translate(-50%, -50%);
 }
 
+.form-container  form .error_msg {
+  padding: 10px;
+  border-radius: 6px;
+  color: #d8000c;
+  background-color: #ffbaba;
+  margin-top: 20px;
+
+}
+small{
+  float: right;
+  color: crimson;
+  margin-top: 5px;
+}
