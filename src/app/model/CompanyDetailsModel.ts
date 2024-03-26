@@ -13,7 +13,10 @@ export class CompanyDetailsModel{
         t5_zip_pincode!: string;
         t5_mobile_no!: string;
         t5_email!: string;
-        t5_access_from_date!: string;
-        t5_max_device_login_per_username!: string;
-        t5_max_users_allowed!: string; 
+        t5_access_from_date='';
+        t5_access_till_date!: string;
+        t5_max_device_login_per_username!: number;
+        t5_max_users_allowed!: number;
+        t5_source_code_owner!:string
+        t5_approved!:string; 
 }

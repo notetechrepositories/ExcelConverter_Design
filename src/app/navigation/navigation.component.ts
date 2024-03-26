@@ -22,6 +22,7 @@ export class NavigationComponent {
   AddEmployeeVisible:boolean=false;
   UserListVisible:boolean=false;
   AddEmployeeButton:boolean=false;
+  HowItsWork=false;
   editing=false;
   navigationView:Boolean=true;
   userType!: any;
@@ -57,9 +58,11 @@ export class NavigationComponent {
     console.log(this.accessToken);
     if(this.userType=="company_admin"){
       this.AddEmployeeButton=true;
+      this.HowItsWork=true;
     }
     else{
       this.AddEmployeeButton=false;
+      this.HowItsWork=false;
     }
 
     this.userRegForm = this.fb.group({
@@ -69,7 +72,7 @@ export class NavigationComponent {
       adminPrivilege: ['', Validators.required]
     });
 
-     this.statuses = [
+    this.statuses = [
       { label: 'Yes', value: 'y' },
       { label: 'No', value: 'n' }
   ];
@@ -108,17 +111,6 @@ export class NavigationComponent {
     this.UserListVisible=true;
     this.userService.getUserListbyCompany().subscribe(res=>{
       this.userDetails=res.data;
-      // for(var i=0;i<=this.userDetails.length;i++){
-
-      // }
-      // const converted = {
-      //   id: Math.floor(Math.random() * 100),
-      //   DatabaseName: db,
-      //   SqlHost: convertedConfig.host,
-      //   SqlPort: convertedConfig.port,
-      //   SqlUsername: convertedConfig.username,
-      //   SqlPassword: convertedConfig.password
-      // };
     })
   }
 
@@ -151,21 +143,18 @@ export class NavigationComponent {
         },
         error:(error)=>{
           console.log(error);
-          
         }
       })
     }
     
   
   onAddUser(){
-   
     if (this.userRegForm.invalid) {
       this.userRegForm.markAllAsTouched();
-      console.log("Invalid");
       return;
     }
     else{
-      const formValue = this.userRegForm.value;
+    const formValue = this.userRegForm.value;
     let userRegData: any={
       id_t5_m_company: this.companyDetails.id_t5_m_company,
       t6_name: formValue.name,
@@ -173,8 +162,6 @@ export class NavigationComponent {
       t6_email: formValue.email,
       t6_admin: formValue.adminPrivilege
     }
-    console.log(userRegData);
-    
     if(userRegData!=null){
       this.userService.addUserbyCompany(userRegData).subscribe({
         next:(res)=>{
@@ -195,8 +182,7 @@ export class NavigationComponent {
 
   
   deleteSelectedUser(){
-
-    this.confirmationService.confirm({
+    this.confirmationService.confirm({  
       message: 'Are you sure you want to delete the selected database configurations?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
@@ -226,7 +212,6 @@ export class NavigationComponent {
               this.messageService.add({ severity: 'error', summary: 'Unsuccessfull', detail: error.error.message, life: 3000 });
             }
           })
-        
       }
     });
   }
