@@ -12,14 +12,15 @@
         </div>
         <ul class="navmenu-items" [ngClass]="{'active': isNavMenuActive}">
             <li class="nav-link"><a routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-            <li class="nav-link"><a routerLink="/tutorial-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">How It Works</a></li>
+            <li class="nav-link"><a routerLink="/tutorial-page" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" *ngIf="HowItsWork">How It Works</a></li>
             <!-- <li class="nav-link"><a routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">About</a></li> -->
             <div class="login-register" *ngIf="AddEmployeeButton">
                 <a class="button" (click)="onAddEmployeeButton()"> <i class='bx bx-plus' ></i> ADD EMPLOYEE</a>
-            </div>
-            <div class="login-register" *ngIf="AddEmployeeButton">
                 <a class="button" (click)="onUserListButton()"> USERS LIST</a>
             </div>
+            <!-- <div class="login-register" *ngIf="AddEmployeeButton">
+                <a class="button" (click)="onUserListButton()"> USERS LIST</a>
+            </div> -->
             <!-- <div class="profile-img"></div> -->
             <li (click)="logout()">
                 <i class="bx bx-log-out" style="font-size:30px; color:#009182;font-weight: 300;"></i>
@@ -34,7 +35,7 @@
         </ul>
     </nav>
 
-<div class="wrapper" style="min-height: 700px;">
+<div class="wrapper" style="min-height: 789px;">
     
     <router-outlet></router-outlet>
 
@@ -85,8 +86,8 @@
             <div class="col-md-6">
                 <label  class="form-label">Name</label>
                 <input type="email" class="form-control" formControlName="name" (click)="inputboxClick($event)">
-                <!-- <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['name'].dirty && userRegForm.hasError('required','name')">*Name is required</small> -->
-                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.get('name')?.touched && userRegForm.get('name')?.errors?.['required']">*Name is required</small>
+                <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['name'].dirty && userRegForm.hasError('required','name')">*Name is required</small>
+                <!-- <small style="float:left;margin-top:2px;" *ngIf="userRegForm.get('name')?.touched && userRegForm.get('name')?.errors?.['required']">*Name is required</small> -->
 
             </div>
             <div class="col-md-6">
@@ -102,9 +103,8 @@
             <div class="col-md-6">
                 <label class="form-label">Is the user have Admin Privilege?</label>
                 <select class="form-control" formControlName="adminPrivilege" (click)="inputboxClick($event)">
-                <option value="" disabled selected></option>
                   <option value="y">Yes</option>
-                  <option value="n">No</option>
+                  <option value="n" selected>No</option>
                 </select>
                 <small style="float:left;margin-top:2px;" *ngIf="userRegForm.controls['adminPrivilege'].touched && userRegForm.hasError('required','adminPrivilege')">*Required</small>
               </div>

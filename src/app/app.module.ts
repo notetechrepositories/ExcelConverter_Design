@@ -37,7 +37,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotAndResetComponent } from './forgot-and-reset/forgot-and-reset.component';
-
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -82,7 +82,7 @@ import { ForgotAndResetComponent } from './forgot-and-reset/forgot-and-reset.com
     ProgressSpinnerModule
     
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
